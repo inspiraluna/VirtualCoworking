@@ -1,0 +1,7 @@
+/* CSS declarations go here */
+#layoutContainer {
+            width: 320px;
+            height: 240px;
+            background-color: #DDD;
+            position:relative;
+}
