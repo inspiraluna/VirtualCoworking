@@ -17,6 +17,7 @@ callback-hook@1.0.4
 carlodicelico:tokbox@2.2.8
 check@1.1.0
 coffeescript@1.0.11
+dburles:collection-helpers@1.0.4
 ddp@1.2.2
 ddp-client@1.2.1
 ddp-common@1.2.2

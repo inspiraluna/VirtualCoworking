@@ -1,4 +1,13 @@
 Projects = new Mongo.Collection("projects");
+// Users = new Mongo.Collection("users");
+
+// Projects.helpers({
+//   creator: function() {
+//     //return 'nico'+this.createdBy ;
+//     return userData.findOne(this.createdBy).emails[0].address;
+//   }
+// });
+
 
 Projects.friendlySlugs( {
     slugFrom: 'projectname',
@@ -187,20 +196,24 @@ var session = null;
 
 if (Meteor.isServer) {
 
+  Meteor.publish('userData', function () { 
+    return Meteor.users.find({}, {fields: {_id: 1, emails: 1}}); 
+  }); 
+
   Meteor.publish('projects', function(slug){
 
       var parent = null;
       var projects = null;
 
-      if(slug && slug!='_'){
+      if(slug){
          console.log('slug:'+slug);
          parent = Projects.findOne({slug:slug})._id;
          console.log('okey parent is:'+parent.projectname);
       }
 
-      //{$or: [{parent: parent},
-      projects = Projects.find({parent: parent}); 
-      console.log('found projects...'+Projects.find({parent: parent}).count());
+      //,
+      projects = Projects.find({$or: [{parent: parent},{_id: parent}]}); 
+      console.log('found projects...'+Projects.find({$or: [{parent: parent}, {_id: parent}]}).count());
      
       return projects;
   });
