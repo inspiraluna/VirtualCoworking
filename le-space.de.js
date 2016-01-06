@@ -1,13 +1,16 @@
 Projects = new Mongo.Collection("projects");
-// Users = new Mongo.Collection("users");
 
 Projects.helpers({
   creator: function() {
+
+    Meteor.users.find({});
+    
     return 'nico'+this.createdBy ;
 //    return userData.findOne(this.createdBy).emails[0].address;
   }
 });
 
+// Meteor.subscribe('userData');
 
 Projects.friendlySlugs( {
     slugFrom: 'projectname',
