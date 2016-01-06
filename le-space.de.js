@@ -1,12 +1,12 @@
 Projects = new Mongo.Collection("projects");
 // Users = new Mongo.Collection("users");
 
-// Projects.helpers({
-//   creator: function() {
-//     //return 'nico'+this.createdBy ;
-//     return userData.findOne(this.createdBy).emails[0].address;
-//   }
-// });
+Projects.helpers({
+  creator: function() {
+    return 'nico'+this.createdBy ;
+//    return userData.findOne(this.createdBy).emails[0].address;
+  }
+});
 
 
 Projects.friendlySlugs( {
@@ -250,21 +250,6 @@ if (Meteor.isServer) {
     
       Meteor.methods({
 
-        // getProject: function(slug){
-
-        //         if(slug!=null){
-        //           console.log('try finding the project with slug:'+slug);
-        //           var project = Projects.findOne({slug:slug}); 
-        //           console.log(' found project'+project._id);
-        //           return project;
-        //         }
-        //         else return null;
-        //          // var project = Projects.findOne({slug:this.params.slug}); 
-        //          // console.log(project?project.projectname:'no slug!'+this.params.slug);
-        //          // Session.set('project',project);
-        //          // return project;
-
-        // },
         startArchive: function(sessionId){
           var options = {
               name: 'My archive name' //This is the name of the archive. You can use this name to identify the archive.

@@ -3,8 +3,8 @@
   "servers": [
     {
       "host": "www.le-space.de",
-      "username": "root",
-      "password": "hurra2015!"
+      "username": "",
+      "password": ""
       // or pem file (ssh based authentication)
       //"pem": "~/.ssh/id_rsa"
     }
