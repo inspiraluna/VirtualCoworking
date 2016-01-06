@@ -2,11 +2,17 @@ Projects = new Mongo.Collection("projects");
 
 Projects.helpers({
   creator: function() {
-
-    Meteor.users.find({});
-    
-    return 'nico'+this.createdBy ;
-//    return userData.findOne(this.createdBy).emails[0].address;
+    return Meteor.users.findOne(this.createdBy).emails[0].address;
+  },
+  parentSlug: function(){
+    console.log('looking for parent...'+this.parent);
+    if(this.parent){
+      var project = Projects.findOne(this.parent); 
+      console.log('okey found parent slug:'+project.slug);
+      return project.slug;
+    }
+    else 
+      return '';
   }
 });
 
@@ -200,7 +206,7 @@ var session = null;
 if (Meteor.isServer) {
 
   Meteor.publish('userData', function () { 
-    return Meteor.users.find({}, {fields: {_id: 1, emails: 1}}); 
+    return Meteor.users.find({}); //, {fields: {_id: 1, emails: 1}} 
   }); 
 
   Meteor.publish('projects', function(slug){
@@ -210,8 +216,8 @@ if (Meteor.isServer) {
 
       if(slug){
          console.log('slug:'+slug);
-         parent = Projects.findOne({slug:slug})._id;
-         console.log('okey parent is:'+parent.projectname);
+         parent = Projects.findOne({slug:slug}).parent;
+         console.log('okey parent is:'+parent);
       }
 
       //,
@@ -236,13 +242,9 @@ if (Meteor.isServer) {
       return Meteor.userId()?true:false;  //adminUser(userId);
     },
     update: function(userId, docs, fields, modifier){
-      console.log('docs.createdBy'+docs.createdBy);
-      console.log('userId:'+userId);
       return isOwner(userId,docs.createdBy) || isAdmin(userId);
     },
     remove: function (userId, docs){
-      console.log('userId:'+userId);
-      console.log('docs.createdBy'+docs.createdBy);
       return isOwner(userId,docs.createdBy) || isAdmin(userId);
     }
   });
