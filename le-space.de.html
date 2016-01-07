@@ -67,10 +67,22 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="panel panel-default">
+                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Siblings</h4></div>
+                    <div class="panel-body">
+                      <div class="list-group">
+                        {{#each siblings}}
+							{{> project}}
+						{{/each}}
+                      </div>
+                    </div><!--/panel-body-->
+        		</div><!--/panel-->
+			</div>
+			<div class="col-md-4">
+				<div class="panel panel-default">
                   <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Projects</h4></div>
                     <div class="panel-body">
                       <div class="list-group">
-                        {{#each projects}}
+                        {{#each childs}}
 							{{> project}}
 						{{/each}}
                       </div>

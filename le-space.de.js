@@ -1,11 +1,19 @@
 Projects = new Mongo.Collection("projects");
 
 Projects.helpers({
+
   creator: function() {
     return Meteor.users.findOne(this.createdBy).emails[0].address;
   },
+  siblings: function(){
+      return Projects.find({parent: this.parent}); 
+  },
+  childs: function(){
+      console.log('finding children: of '+this._id+' : '+Projects.find({parent: this._id}).count());
+      return Projects.find({parent: this._id});
+  },
   parentSlug: function(){
-    console.log('looking for parent...'+this.parent);
+    console.log('looking for parent...'+this.parent+' :'+Projects.find().count());
     if(this.parent){
       var project = Projects.findOne(this.parent); 
       console.log('okey found parent slug:'+project.slug);
@@ -22,7 +30,7 @@ Projects.friendlySlugs( {
     slugFrom: 'projectname',
     slugField: 'slug',
     distinct: true,
-    updateSlug: true
+    updateSlug: false
   });
 
 Router.route('/', {
@@ -30,6 +38,12 @@ Router.route('/', {
     waitOn: function(){
       var thisId = Session.get("project")?Session.get("project")._id:null;
       return Meteor.subscribe('projects',thisId);
+    },
+    data: function(){
+       var project = Projects.findOne('sNZxcGsRuCGG3Di2o'); 
+       console.log('found project:'+project);
+       Session.set('project',project);
+       return project;
     }
 });
 
@@ -67,14 +81,12 @@ if (Meteor.isClient) {
      projectIsActive: function(id) {
         console.log('thisId:'+this.id+' '+_id);
         return (this.id === id) ? "active" : ""
-     },
-     projects: function () {
-        var count = 0;
-        var query = Projects.find({},{sort: {projectname: 1}});
-        return query;
-     },
-     // project: function () {
-     //    return Session.get('project');
+     }
+     // childs: function () {
+     //    var count = 0;
+     //    // var parent = Session.get("project").parent?
+     //    var query = Projects.find({parent:null},{sort: {projectname: 1}});
+     //    return query;
      // }
   });
 
@@ -211,20 +223,25 @@ if (Meteor.isServer) {
 
   Meteor.publish('projects', function(slug){
 
-      var parent = null;
-      var projects = null;
+      // var parent = null;
+      // var grandParent = null
+      // var projects = null;
 
-      if(slug){
-         console.log('slug:'+slug);
-         parent = Projects.findOne({slug:slug}).parent;
-         console.log('okey parent is:'+parent);
-      }
+      // if(slug){
+      //    console.log('slug:'+slug);
+      //    parent = Projects.findOne({slug:slug});
+      //    console.log('okey parent is:'+parent.projectname+' grandParent:'+parent.parent);
+      //    if(parent && parent.parent){
+      //       grandParent = parent.parent;
+      //       console.log('grandParent:'+grandParent);
+      //    }
+      // }
 
-      //,
-      projects = Projects.find({$or: [{parent: parent},{_id: parent}]}); 
-      console.log('found projects...'+Projects.find({$or: [{parent: parent}, {_id: parent}]}).count());
-     
-      return projects;
+      //projects = Projects.find({$or: [{parent: parent},{_id: parent}]}); 
+      //console.log('found projects...'+Projects.find({$or: [{parent: parent}, {parent: grandParent}, {_id: parent}]}).count());
+      
+      //return projects;
+      return Projects.find();
   });
  
 
