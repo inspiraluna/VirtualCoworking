@@ -5,9 +5,17 @@ Projects.helpers({
   creator: function() {
     return Meteor.users.findOne(this.createdBy).emails[0].address;
   },
-  siblings: function(){
-      return Projects.find({parent: this.parent}); 
-  },
+  // siblings: function(){
+  //     console.log('test');
+  //     if(Session.get('project')){
+  //       console.log('project session not here');
+  //       return Projects.find({parent: this.parent}); 
+  //     }
+  //     else {
+  //       console.log('project session not here');
+  //       return Projects.find({parent: null});
+  //     }  
+  // },
   childs: function(){
       console.log('finding children: of '+this._id+' : '+Projects.find({parent: this._id}).count());
       return Projects.find({parent: this._id});
@@ -24,7 +32,6 @@ Projects.helpers({
   }
 });
 
-// Meteor.subscribe('userData');
 
 Projects.friendlySlugs( {
     slugFrom: 'projectname',
@@ -36,14 +43,15 @@ Projects.friendlySlugs( {
 Router.route('/', {
     template: 'home',
     waitOn: function(){
-      var thisId = Session.get("project")?Session.get("project")._id:null;
-      return Meteor.subscribe('projects',thisId);
+      return Meteor.subscribe('projects');
     },
     data: function(){
-       var project = Projects.findOne('sNZxcGsRuCGG3Di2o'); 
-       console.log('found project:'+project);
-       Session.set('project',project);
-       return project;
+      var project = null; //Projects.find({},{sort: {createdAt: 1}}).fetch()[0];
+
+      console.log('found first project:'+project);
+      Session.set('project',null);
+      
+      return project;
     }
 });
 
@@ -51,16 +59,9 @@ Router.route('/:slug', {
     name: 'projects',
     template: 'home',
     waitOn: function(){
-          return Meteor.subscribe('projects',this.params.slug);
+          return Meteor.subscribe('projects');
     },
     data: function(){
-      // if(this.params.slug && this.params.slug!='_'){
-      //  Meteor.call("getProject", this.params.slug, function (error, result) {
-      //   console.log('project:'+result._id);
-      //     Session.set('project',result);
-      //    // return result;
-      //  });
-      //  }
        var project = Projects.findOne({slug:this.params.slug}); 
        console.log(project?project.projectname:'no slug!'+this.params.slug);
        Session.set('project',project);
@@ -71,7 +72,19 @@ Router.route('/:slug', {
 if (Meteor.isClient) {
 
   Template.home.helpers({
+     siblings: function(){
 
+      console.log('test');
+      if(Session.get('project')){
+        console.log('project session not here');
+        return Projects.find({parent: this.parent}); 
+      }
+      else {
+        console.log('project session not here');
+        return Projects.find({parent: null});
+      } 
+
+     },
      sessionId: function() {
         return  Session.get('sessionId');
      },
@@ -82,12 +95,6 @@ if (Meteor.isClient) {
         console.log('thisId:'+this.id+' '+_id);
         return (this.id === id) ? "active" : ""
      }
-     // childs: function () {
-     //    var count = 0;
-     //    // var parent = Session.get("project").parent?
-     //    var query = Projects.find({parent:null},{sort: {projectname: 1}});
-     //    return query;
-     // }
   });
 
   Template.project.helpers({
@@ -218,7 +225,7 @@ var session = null;
 if (Meteor.isServer) {
 
   Meteor.publish('userData', function () { 
-    return Meteor.users.find({}); //, {fields: {_id: 1, emails: 1}} 
+    return Meteor.users.find({fields: {_id: 1, address: 1}} ); //, {fields: {_id: 1, emails: 1}} 
   }); 
 
   Meteor.publish('projects', function(slug){

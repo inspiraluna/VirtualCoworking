@@ -1,12 +1,10 @@
 Todos
 -----
 
-- (bug) display all tasks of this project by slug (all projects which have this slug as parent)
-- (bug) display all tasks without parent
+- integrate https://github.com/mizzao/meteor-sharejs
+- delete project (only from creator!)
 - (bug) stop archive
-- get archive 
-
-- add translations
+- get archive and display video 
 - apply for project by team member (add planed hours, add planed costs, )
 - add project member (by email)
 - add 'done in percent'
@@ -20,10 +18,14 @@ Todos
 - add planed finance model (e.g. )
 - (p2) set webrtc call and video for a certain scheduled time (or now) for all members
 - referenced projects
+- add translations
+- check https://github.com/Slava/meteor-rethinkdb
 
 
 Done
 ----
+-2016-01-07 - (bug) display all tasks of this project by slug (all projects which have this slug as parent)
+			- (bug) display all tasks without parent
 -2016-01-01 start archive 
 -2016-01-01 restart video with same session if available.
 -2016-01-01 associate webrtc session with project
