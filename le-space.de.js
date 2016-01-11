@@ -5,17 +5,6 @@ Projects.helpers({
   creator: function() {
     return Meteor.users.findOne(this.createdBy).emails[0].address;
   },
-  // siblings: function(){
-  //     console.log('test');
-  //     if(Session.get('project')){
-  //       console.log('project session not here');
-  //       return Projects.find({parent: this.parent}); 
-  //     }
-  //     else {
-  //       console.log('project session not here');
-  //       return Projects.find({parent: null});
-  //     }  
-  // },
   childs: function(){
       console.log('finding children: of '+this._id+' : '+Projects.find({parent: this._id}).count());
       return Projects.find({parent: this._id});
@@ -72,18 +61,14 @@ Router.route('/:slug', {
 if (Meteor.isClient) {
 
   Template.home.helpers({
-     siblings: function(){
 
-      console.log('test');
+     siblings: function(){
       if(Session.get('project')){
-        console.log('project session not here');
         return Projects.find({parent: this.parent}); 
       }
       else {
-        console.log('project session not here');
         return Projects.find({parent: null});
       } 
-
      },
      sessionId: function() {
         return  Session.get('sessionId');
@@ -92,7 +77,6 @@ if (Meteor.isClient) {
         return  Session.get('archiveStarted');
      },
      projectIsActive: function(id) {
-        console.log('thisId:'+this.id+' '+_id);
         return (this.id === id) ? "active" : ""
      }
   });
@@ -109,12 +93,6 @@ if (Meteor.isClient) {
     "click .delete": function () {
       Projects.remove(this._id);
     }
-    // "mouseover .project": function () {
-    //   var project = Projects.findOne({_id: this._id});
-    //   console.log('found project:'+project.projectname);
-    //   Session.set('selectedProject', project);
-    // }
-
 });
 
 Template.home.rendered = function(){
@@ -138,8 +116,6 @@ Template.home.rendered = function(){
 var session = null;
 
   Template.home.events({
-        
-        // var self = this;
          
          "click #new-video": function (event) {
          event.preventDefault();  
@@ -155,9 +131,6 @@ var session = null;
 
             Meteor.call("token", sessionId, function (error, result) {
             var token = result;
-            console.log('session:'+sessionId);
-            console.log('token:'+token);
-
             var apiKey = "45454102";
             session = OT.initSession(apiKey,sessionId);
             session.on("streamCreated", function(event){
@@ -190,14 +163,15 @@ var session = null;
         },
         "click #start-archive": function (event) {
          event.preventDefault();
-          Meteor.call("startArchive", Session.get('sessionId'), function (error, result) {  
-          Session.set('archiveStarted', true);
+          Meteor.call("startArchive",  Session.get('project')._id, Session.get('sessionId'), function (error, result) {  
+          console.log('archive:'+result.id);
+          Session.set('archiveStarted', result.id);
          });         
         },
        "click #stop-archive": function (event) {
          event.preventDefault();
-          Meteor.call("stopArchive", Session.get('sessionId'), function (error, result) {  
-          Session.set('archiveStarted', false);
+          Meteor.call("stopArchive", Session.get('archiveStarted'), function (error, result) {  
+          Session.set('archiveStarted', null);
          });         
         },
         "submit .new-project": function (event) {
@@ -273,30 +247,71 @@ if (Meteor.isServer) {
     }
   });
 
-  Meteor.startup(function () {
+    var apiKey = "45454102";  
+    var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
+    var openTokClient = new OpenTokClient(apiKey, apiSecret);
 
-      var openTokClient = new OpenTokClient('45454102', 'fd2911e46c0a1c02d7f0664222169195c7eb146f');
-    
+    var callStartArchiveAsync = function(_id, sessionId, callback){
+
+    var name='archive of some project';
+    var data= {"sessionId" : sessionId, "name" : name};
+    var headers = {
+                      'Content-Type' : 'application/json',
+                      'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
+    };
+
+    HTTP.call( 'POST', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive', {
+            data: data,
+            headers: headers
+    }, function( error, response ) {
+                if ( error ) {
+                  console.log( error );
+                  callback(error,response);
+                } else {
+                      console.log(response.data);
+                      var archives = [];
+                      if(Projects.findOne(_id).archives)
+                        archives = Projects.findOne(_id).archives;
+
+                      archives.push(response.data);
+                      Projects.update(_id,{$set:{archives: archives}});
+                      // return response.data.id;
+                      callback(error,response.data);
+                  }
+      });
+      };
+    var callStartArchiveAsyncWrap = Meteor.wrapAsync(callStartArchiveAsync);
+
+
+
+    Meteor.startup(function () {
+
       Meteor.methods({
 
-        startArchive: function(sessionId){
-          var options = {
-              name: 'My archive name' //This is the name of the archive. You can use this name to identify the archive.
-          };
-          openTokClient.startArchive(sessionId, options);
-          return null;
+        startArchive: function(_id, sessionId){
+          return callStartArchiveAsyncWrap(_id, sessionId);       
         },
 
         stopArchive: function(sessionId){
+          console.log('stopping archive....'+sessionId);
             var archive = openTokClient.stopArchive(sessionId);
+            console.log('stopped archive....'+archive);
             return archive;
         },
 
+        getArchive: function(archiveId){
+            var archive = openTokClient.getArchive('test1');
+            console.log('archive:'+archive);
+            return archive; 
+        },
         startVideo: function(sessionId){ 
+
+          // Create a session and store it in the express app
+
           console.log('sessionId from client:'+sessionId);
           var options = {
                 mediaMode: 'routed', //Options are 'routed' (through openTok servers) and 'relayed' (Peer to Peer)
-                location: '192.168.0.101' //An IP address that the OpenTok servers will use to situate the session in the global OpenTok network.
+                location: '5.9.154.226' //An IP address that the OpenTok servers will use to situate the session in the global OpenTok network.
           };
 
           var session = sessionId;
@@ -324,7 +339,7 @@ if (Meteor.isServer) {
 
         stopVideo: function(sessionId){ //(session)
         
-           console.log('got sessionId from opentok:'+session);
+           // console.log('got sessionId from opentok:'+session);
            return null;
         },  
       });

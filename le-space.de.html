@@ -64,10 +64,13 @@
 				</div>
 		</div>
 	{{/if}}
+
+
+
 		<div class="row">
 			<div class="col-md-4">
 				<div class="panel panel-default">
-                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Siblings</h4></div>
+                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Projects</h4></div>
                     <div class="panel-body">
                       <div class="list-group">
                         {{#each siblings}}
@@ -79,7 +82,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="panel panel-default">
-                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Projects</h4></div>
+                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Sub-Projects / Tasks</h4></div>
                     <div class="panel-body">
                       <div class="list-group">
                         {{#each childs}}
@@ -114,17 +117,18 @@
 						<form>
 							{{#if sessionId}}
 							<!-- <input type="button" id="stop-video" value="Stop Video" /> -->
-							  <button id="stop-video" class="btn btn-primary active">VIDEO OFF</button>
-						<!-- 		{{#if archiveStarted}}
+							  	<button id="stop-video" class="btn btn-primary active">VIDEO OFF</button>
+								{{#if archiveStarted}}
 									<input type="button" id="stop-archive" value="Stop Archive" />
 								{{else}}
 									<input type="button" id="start-archive" value="Start Archive" />
-								{{/if}} -->
+								{{/if}}
 							{{else}}
 								<!-- <input type="button" id="new-video" value="Start Video" /> -->
 								 <button  id="new-video" class="btn btn-default">VIDEO ON</button>
 							{{/if}}
 						</form>
+
 <!-- 
                         <button class="btn btn-default">ON</button>
                         <button class="btn btn-primary active">OFF</button> -->

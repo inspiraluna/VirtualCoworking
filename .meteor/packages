@@ -20,10 +20,12 @@ insecure                # Allow all DB writes from clients (for prototyping)
 accounts-password
 accounts-ui
 twbs:bootstrap
-carlodicelico:tokbox
 natestrauser:x-editable-bootstrap
 iron:router
 todda00:friendly-slugs
 dburles:collection-helpers
 mizzao:sharejs
 fortawesome:fontawesome
+carlodicelico:tokbox
+http
+meteorhacks:async
