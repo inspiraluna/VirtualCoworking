@@ -1,5 +1,7 @@
 Projects = new Mongo.Collection("projects");
 
+
+
 Projects.helpers({
 
   creator: function() {
@@ -18,6 +20,10 @@ Projects.helpers({
     }
     else 
       return '';
+  },
+  archiveData: function(){
+   
+      return Session.get('archiveData');
   }
 });
 
@@ -51,14 +57,30 @@ Router.route('/:slug', {
           return Meteor.subscribe('projects');
     },
     data: function(){
-       var project = Projects.findOne({slug:this.params.slug}); 
-       console.log(project?project.projectname:'no slug!'+this.params.slug);
-       Session.set('project',project);
-       return project;
+      var project = Projects.findOne({slug:this.params.slug}); 
+      console.log(project?project.projectname:'no slug!'+this.params.slug);
+      Session.set('project',project);
+
+      Meteor.call('getArchive', project._id, function (error, result) {
+             Session.set('archiveData',result);
+      });
+      
+      return project;
     }
 });
 
 if (Meteor.isClient) {
+
+  Template.recording.helpers({
+    niceTime: function() { 
+      return moment(new Date(this.createdAt)).fromNow();;
+
+      //return moment(new Date(this.createdAt)).format('l LT');
+        // var timeInMs = this.createdAt; //'this' is the current data context
+        // var datetime = new Date(timeInMs); //convert this to a date object
+        // return datetime.toLocaleTimeString; //return the time in a locale string
+    }
+  });
 
   Template.home.helpers({
 
@@ -70,12 +92,15 @@ if (Meteor.isClient) {
         return Projects.find({parent: null});
       } 
      },
+     
      sessionId: function() {
         return  Session.get('sessionId');
      },
+     
      archiveStarted: function() {
         return  Session.get('archiveStarted');
      },
+
      projectIsActive: function(id) {
         return (this.id === id) ? "active" : ""
      }
@@ -86,13 +111,14 @@ if (Meteor.isClient) {
      projectIsActive: function(id, activeId) {
         return (id === activeId) ? "active" : "";
      }
-  });
 
+  });
 
   Template.home.events({
     "click .delete": function () {
       Projects.remove(this._id);
-    }
+  }
+
 });
 
 Template.home.rendered = function(){
@@ -247,7 +273,7 @@ if (Meteor.isServer) {
     }
   });
 
-    var apiKey = "45454102";  
+    var apiKey = '45454102';  
     var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
     var openTokClient = new OpenTokClient(apiKey, apiSecret);
 
@@ -279,9 +305,23 @@ if (Meteor.isServer) {
                       callback(error,response.data);
                   }
       });
-      };
+    };
+    
     var callStartArchiveAsyncWrap = Meteor.wrapAsync(callStartArchiveAsync);
 
+    var callGetArchiveAsync = function(archiveId, callback){
+
+    console.log('calling archive:'+archiveId);
+    var headers = {
+                      'Content-Type' : 'application/json',
+                      'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
+    };
+
+    HTTP.call( 'GET', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive/'+archiveId, {headers: headers}, 
+      function( error, response ) { callback(error,response); });
+    };
+ 
+    var callGetArchiveAsyncWrap = Meteor.wrapAsync(callGetArchiveAsync);
 
 
     Meteor.startup(function () {
@@ -293,16 +333,24 @@ if (Meteor.isServer) {
         },
 
         stopArchive: function(sessionId){
-          console.log('stopping archive....'+sessionId);
             var archive = openTokClient.stopArchive(sessionId);
             console.log('stopped archive....'+archive);
             return archive;
         },
 
         getArchive: function(archiveId){
-            var archive = openTokClient.getArchive('test1');
-            console.log('archive:'+archive);
-            return archive; 
+            console.log('retrieving archive '+archiveId);
+            var archives = Projects.findOne(archiveId).archives;
+            var data  = [];
+            for(var i = 0;i<archives.length;i++){
+      
+                  console.log('thisArchiveId:'+archives[i].id);
+                  var archive = callGetArchiveAsyncWrap(archives[i].id).content;
+                    console.log('data content:'+JSON.parse(archive).id);
+                  data.push(JSON.parse(archive));
+                  console.log('data length:'+data.length);
+            }
+            return data;
         },
         startVideo: function(sessionId){ 
 

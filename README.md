@@ -1,10 +1,12 @@
 Todos
 -----
 
-- dealing with async methods and wrapAsync() http://stackoverflow.com/questions/31282493/dealing-with-meteor-error-and-wrapasync-best-methods
-- stop archive 
-- display archives and display video 
-- redirect non-webrtc browser 
+
+- enable/disable audio/video during recording
+- move recordings into trash
+- (bug) two windows of the videopartner appear.	
+
+
 - if session is already running - subscribe and display without publish own video
 - apply for project by team member (add planed hours, add planed costs, )
 - invite project member (by email)
@@ -20,9 +22,11 @@ Todos
 - (p2) set webrtc call and video for a certain scheduled time (or now) for all members
 - referenced projects
 - add translations
+- redirect non-webrtc browser 
+- check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
 - check https://github.com/Slava/meteor-rethinkdb
-
 - check information for blockchain
+	https://21.co/
 	http://www.multichain.com/blog/2015/11/avoiding-pointless-blockchain-project/
 	http://readwrite.com/2016/01/06/new-blockchain-applications
 	https://alpha.ujomusic.com/#/imogen_heap/tiny_human/tiny_human (blockchain artist portal)
@@ -31,6 +35,11 @@ Todos
 
 Done
 ----
+- 2016-01-12 - display archives and display video 
+- 2016-01-11 - stop archive 
+- 2016-01-11 - dealing with async methods and wrapAsync() 
+											http://stackoverflow.com/questions/31282493/dealing-with-meteor-error-and-wrapasync-best-methods
+											http://www.smashingthingstogether.com/the-javascript-runtime-fibers-and-meteor-wrapasync/
 - 2016-01-10 - start archive via rest
 - 2016-01-09 - delete project 
 - 2016-01-09 - integrate https://github.com/mizzao/meteor-sharejs

@@ -133,6 +133,16 @@
                         <button class="btn btn-default">ON</button>
                         <button class="btn btn-primary active">OFF</button> -->
                       </div>
+                      <div>
+<!--                        {{#each archives}}
+							{{> archive}}
+						{{/each}} -->
+
+						{{#each archiveData}}
+							{{> recording}}
+						{{/each}}
+            
+                      </div>
                     </div><!--/panel-body-->
                  </div><!--/panel-->
 
@@ -141,7 +151,11 @@
   </div>
 </template>
 
-
+<template name="recording">
+<b>{{name}} {{duration}} sec {{niceTime}}</b><br>
+<div style="width:350px;" class="embed-responsive embed-responsive-16by9">
+<video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div>
+</template>
 <template name="project">
 			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	
 <!-- <div class="container">
