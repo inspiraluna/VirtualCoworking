@@ -1,6 +1,8 @@
 Todos
 -----
 
+- (P1)  Facebook-Anmeldung (Twitter, Google+, github)
+- (P1)  User can be owner (have shares), member (have hours, rates) 
 - (P1)  add 'done in percent'
 - (P1)  if session is already running - subscribe and display without publish own video
 - (P2)  share recording (email/twitter/facebook/g+)
@@ -13,6 +15,7 @@ Todos
 - add checkbox looking for crowd (let people make offer / budget / offer share / ask for donation / ask for sponsoring)
 - add checkbox looking for founding (crowdfunded/investment)
 - add priority 
+- add order of task (up/down by orderid or alphabetically)
 - add location & map  
 - add map and display locations
 - add planed hours

@@ -30,3 +30,7 @@ http
 momentjs:moment
 appcache
 ground:db
+accounts-facebook
+accounts-twitter
+accounts-google
+accounts-github
