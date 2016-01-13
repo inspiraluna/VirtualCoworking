@@ -1,7 +1,5 @@
 Projects = new Mongo.Collection("projects");
 
-
-
 Projects.helpers({
 
   creator: function() {
@@ -22,9 +20,9 @@ Projects.helpers({
       return '';
   },
   archiveData: function(){
-   
       return Session.get('archiveData');
   }
+
 });
 
 
@@ -53,19 +51,34 @@ Router.route('/', {
 Router.route('/:slug', {
     name: 'projects',
     template: 'home',
+    // before: function(){
+    //            if (!this.ready()) {
+    //               this.render('loading');
+    //               pause(); // otherwise the action will just render the main template.
+    //             }
+    // },
     waitOn: function(){
           return Meteor.subscribe('projects');
     },
     data: function(){
-      var project = Projects.findOne({slug:this.params.slug}); 
-      console.log(project?project.projectname:'no slug!'+this.params.slug);
-      Session.set('project',project);
 
-      Meteor.call('getArchive', project._id, function (error, result) {
-             Session.set('archiveData',result);
-      });
+        if ( this.ready() ){
+          console.log('slug:'+this.params.slug);
+          var project = Projects.findOne({slug:this.params.slug}); 
+          console.log('project'+project._id);
+          console.log(project?project.projectname:'no slug!'+this.params.slug);
+          Session.set('project',project);
       
-      return project;
+        
+
+        
+          Meteor.call('getArchive', Session.get('project')._id, function (error, result) {
+                 Session.set('archiveData',result);
+          });
+        
+        
+        return project;
+      }
     }
 });
 
@@ -73,13 +86,22 @@ if (Meteor.isClient) {
 
   Template.recording.helpers({
     niceTime: function() { 
-      return moment(new Date(this.createdAt)).fromNow();;
-
+      return moment(new Date(this.createdAt)).fromNow();
       //return moment(new Date(this.createdAt)).format('l LT');
-        // var timeInMs = this.createdAt; //'this' is the current data context
-        // var datetime = new Date(timeInMs); //convert this to a date object
-        // return datetime.toLocaleTimeString; //return the time in a locale string
     }
+  });
+
+  Template.recording.events({
+    "click .delete": function () {
+      console.log('click:'+this.id);
+      Meteor.call('deleteArchive',this.id, function (error, result) {
+           console.log(error,result);
+      });
+    }
+  });
+
+  Template.home.onCreated(function () {
+    this.subscribe("projects");
   });
 
   Template.home.helpers({
@@ -107,7 +129,6 @@ if (Meteor.isClient) {
   });
 
   Template.project.helpers({
- 
      projectIsActive: function(id, activeId) {
         return (id === activeId) ? "active" : "";
      }
@@ -117,9 +138,8 @@ if (Meteor.isClient) {
   Template.home.events({
     "click .delete": function () {
       Projects.remove(this._id);
-  }
-
-});
+    }
+  });
 
 Template.home.rendered = function(){
    var self = this;
@@ -201,9 +221,8 @@ var session = null;
          });         
         },
         "submit .new-project": function (event) {
-
          event.preventDefault();
-         // console.log('new project'+event.target.parent.value);
+
           var projectname = event.target.projectname.value;
           var parent = null;
           if(event.target.parent && event.target.parent.value!='')
@@ -225,29 +244,10 @@ var session = null;
 if (Meteor.isServer) {
 
   Meteor.publish('userData', function () { 
-    return Meteor.users.find({fields: {_id: 1, address: 1}} ); //, {fields: {_id: 1, emails: 1}} 
+    return Meteor.users.find({fields: {_id: 1, address: 1}} );
   }); 
 
   Meteor.publish('projects', function(slug){
-
-      // var parent = null;
-      // var grandParent = null
-      // var projects = null;
-
-      // if(slug){
-      //    console.log('slug:'+slug);
-      //    parent = Projects.findOne({slug:slug});
-      //    console.log('okey parent is:'+parent.projectname+' grandParent:'+parent.parent);
-      //    if(parent && parent.parent){
-      //       grandParent = parent.parent;
-      //       console.log('grandParent:'+grandParent);
-      //    }
-      // }
-
-      //projects = Projects.find({$or: [{parent: parent},{_id: parent}]}); 
-      //console.log('found projects...'+Projects.find({$or: [{parent: parent}, {parent: grandParent}, {_id: parent}]}).count());
-      
-      //return projects;
       return Projects.find();
   });
  
@@ -279,50 +279,55 @@ if (Meteor.isServer) {
 
     var callStartArchiveAsync = function(_id, sessionId, callback){
 
-    var name='archive of some project';
-    var data= {"sessionId" : sessionId, "name" : name};
-    var headers = {
-                      'Content-Type' : 'application/json',
-                      'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
-    };
+        var name='archive of some project';
+        var data= {"sessionId" : sessionId, "name" : name};
+        var headers = {
+                          'Content-Type' : 'application/json',
+                          'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
+        };
 
-    HTTP.call( 'POST', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive', {
-            data: data,
-            headers: headers
-    }, function( error, response ) {
-                if ( error ) {
-                  console.log( error );
-                  callback(error,response);
-                } else {
-                      console.log(response.data);
-                      var archives = [];
-                      if(Projects.findOne(_id).archives)
-                        archives = Projects.findOne(_id).archives;
+        HTTP.call( 'POST', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive', {
+                data: data,
+                headers: headers
+        }, function( error, response ) {
+                    if ( error ) {
+                      console.log( error );
+                      callback(error,response);
+                    } else {
+                          console.log(response.data);
+                          var archives = [];
+                          if(Projects.findOne(_id).archives)
+                            archives = Projects.findOne(_id).archives;
 
-                      archives.push(response.data);
-                      Projects.update(_id,{$set:{archives: archives}});
-                      // return response.data.id;
-                      callback(error,response.data);
-                  }
-      });
-    };
-    
+                          archives.push(response.data);
+                          Projects.update(_id,{$set:{archives: archives}});
+                          // return response.data.id;
+                          callback(error,response.data);
+                      }
+          });
+    };  
     var callStartArchiveAsyncWrap = Meteor.wrapAsync(callStartArchiveAsync);
 
     var callGetArchiveAsync = function(archiveId, callback){
+      console.log('calling archive:'+archiveId);
+      var headers = {
+                        'Content-Type' : 'application/json',
+                        'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
+      };
 
-    console.log('calling archive:'+archiveId);
-    var headers = {
-                      'Content-Type' : 'application/json',
-                      'X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret
+      HTTP.call( 'GET', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive/'+archiveId, {headers: headers}, 
+        function( error, response ) { callback(error,response); });
     };
-
-    HTTP.call( 'GET', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive/'+archiveId, {headers: headers}, 
-      function( error, response ) { callback(error,response); });
-    };
- 
     var callGetArchiveAsyncWrap = Meteor.wrapAsync(callGetArchiveAsync);
 
+    var callDeleteArchiveAsync = function(_id, archiveId, callback){
+
+      var headers = {'Content-Type' : 'application/json','X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret };
+        HTTP.call( 'DELETE', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive/'+archiveId, {headers: headers}, 
+          function( error, response ) { callback(error,response); });
+      };
+    
+    var callDeleteArchiveAsyncWrap = Meteor.wrapAsync(callDeleteArchiveAsync);
 
     Meteor.startup(function () {
 
@@ -331,24 +336,23 @@ if (Meteor.isServer) {
         startArchive: function(_id, sessionId){
           return callStartArchiveAsyncWrap(_id, sessionId);       
         },
-
         stopArchive: function(sessionId){
             var archive = openTokClient.stopArchive(sessionId);
             console.log('stopped archive....'+archive);
             return archive;
         },
-
+        deleteArchive: function(_id,archiveId){
+           return callDeleteArchiveAsyncWrap(_id,archiveId); 
+        },
         getArchive: function(archiveId){
             console.log('retrieving archive '+archiveId);
             var archives = Projects.findOne(archiveId).archives;
+            if(!archives) return null;
+
             var data  = [];
             for(var i = 0;i<archives.length;i++){
-      
-                  console.log('thisArchiveId:'+archives[i].id);
                   var archive = callGetArchiveAsyncWrap(archives[i].id).content;
-                    console.log('data content:'+JSON.parse(archive).id);
                   data.push(JSON.parse(archive));
-                  console.log('data length:'+data.length);
             }
             return data;
         },

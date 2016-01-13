@@ -79,9 +79,8 @@
                       </div>
                     </div><!--/panel-body-->
         		</div><!--/panel-->
-			</div>
-			<div class="col-md-4">
-				<div class="panel panel-default">
+
+        		<div class="panel panel-default">
                   <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Sub-Projects / Tasks</h4></div>
                     <div class="panel-body">
                       <div class="list-group">
@@ -92,6 +91,10 @@
                     </div><!--/panel-body-->
         		</div><!--/panel-->
 			</div>
+<!-- 			<div class="col-md-4">
+
+
+			</div> -->
 			<div class="col-md-4">
 				<!-- <div class="container"> -->
 
@@ -128,16 +131,8 @@
 								 <button  id="new-video" class="btn btn-default">VIDEO ON</button>
 							{{/if}}
 						</form>
-
-<!-- 
-                        <button class="btn btn-default">ON</button>
-                        <button class="btn btn-primary active">OFF</button> -->
                       </div>
                       <div>
-<!--                        {{#each archives}}
-							{{> archive}}
-						{{/each}} -->
-
 						{{#each archiveData}}
 							{{> recording}}
 						{{/each}}
@@ -150,9 +145,11 @@
 	</div>
   </div>
 </template>
-
+<template name="loadig">loading</template>
 <template name="recording">
+<i class="delete fa fa-trash-o pull-right"></i>
 <b>{{name}} {{duration}} sec {{niceTime}}</b><br>
+
 <div style="width:350px;" class="embed-responsive embed-responsive-16by9">
 <video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div>
 </template>
