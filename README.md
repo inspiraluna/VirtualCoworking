@@ -1,14 +1,15 @@
 Todos
 -----
 
-- (P2) share recording (email/twitter/facebook/g+)
+- (P1)  add 'done in percent'
+- (P1)  if session is already running - subscribe and display without publish own video
+- (P2)  share recording (email/twitter/facebook/g+)
 - (bug) two windows of the videopartner appear.	
-- (P2) enable/disable audio/video during recording
-- (P2) eventually make projects div an sub projects div a fixed size and scrollable if too long
-- if session is already running - subscribe and display without publish own video
+- (P2)  enable/disable audio/video during recording
+- (P2)  eventually make projects div an sub projects div a fixed size and scrollable if too long
 - apply for project by team member (add planed hours, add planed costs, )
 - invite project member (by email)
-- add 'done in percent'
+
 - add checkbox looking for crowd (let people make offer / budget / offer share / ask for donation / ask for sponsoring)
 - add checkbox looking for founding (crowdfunded/investment)
 - add priority 
@@ -17,7 +18,7 @@ Todos
 - add planed hours
 - add planed costs
 - add planed finance model (e.g. )
-- (p2) set webrtc call and video for a certain scheduled time (or now) for all members
+- (p2) schedule webrtc call and video for a certain time (or now) for all members
 - referenced projects
 - add translations
 - redirect non-webrtc browser 
@@ -33,6 +34,10 @@ Todos
 
 Done
 ----
+- 2016-01-13 -  worked on offline data with: 
+					https://github.com/awwx/meteor-offline-data
+			 		https://subvisual.co/blog/posts/45-offline-web-apps-with-meteor
+			 		https://github.com/GroundMeteor/db
 - 2016-01-13 - move recordings into trash https://tokbox.com/developer/guides/archiving/
 - 2016-01-13 - move tasks & sub projects below projects div
 - 2016-01-13 - bug reload website over slug url does not work - subscription not ready 
