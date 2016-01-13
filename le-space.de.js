@@ -51,12 +51,6 @@ Router.route('/', {
 Router.route('/:slug', {
     name: 'projects',
     template: 'home',
-    // before: function(){
-    //            if (!this.ready()) {
-    //               this.render('loading');
-    //               pause(); // otherwise the action will just render the main template.
-    //             }
-    // },
     waitOn: function(){
           return Meteor.subscribe('projects');
     },
@@ -65,13 +59,12 @@ Router.route('/:slug', {
         if ( this.ready() ){
           console.log('slug:'+this.params.slug);
           var project = Projects.findOne({slug:this.params.slug}); 
+          
           console.log('project'+project._id);
           console.log(project?project.projectname:'no slug!'+this.params.slug);
+          
           Session.set('project',project);
-      
-        
 
-        
           Meteor.call('getArchive', Session.get('project')._id, function (error, result) {
                  Session.set('archiveData',result);
           });
@@ -320,8 +313,20 @@ if (Meteor.isServer) {
     };
     var callGetArchiveAsyncWrap = Meteor.wrapAsync(callGetArchiveAsync);
 
-    var callDeleteArchiveAsync = function(_id, archiveId, callback){
+    var callDeleteArchiveAsync = function(archiveId, callback){
 
+      var projectWithArchive = Projects.findOne({ archives : { $elemMatch : { id:archiveId}}});
+      if(projectWithArchive.archives){
+        for(var i = 0;i<projectWithArchive.archives.length;i++){
+          if(projectWithArchive.archives[i].id===archiveId){
+
+              projectWithArchive.archives.splice(i, 1);
+              
+              Projects.update(projectWithArchive._id,{$set:{archives: projectWithArchive.archives}});
+            }
+
+        }
+      }
       var headers = {'Content-Type' : 'application/json','X-TB-PARTNER-AUTH' : apiKey+':'+apiSecret };
         HTTP.call( 'DELETE', 'https://api.opentok.com/v2/partner/'+apiKey+'/archive/'+archiveId, {headers: headers}, 
           function( error, response ) { callback(error,response); });

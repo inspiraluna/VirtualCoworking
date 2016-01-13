@@ -1,13 +1,10 @@
 Todos
 -----
 
-- eventually make projects div an sub projects dif a fixed size and scrollable if too long
-- move recordings into trash https://tokbox.com/developer/guides/archiving/
-- share recording (email/twitter/facebook/g+)
-- enable/disable audio/video during recording
+- (P2) share recording (email/twitter/facebook/g+)
 - (bug) two windows of the videopartner appear.	
-
-
+- (P2) enable/disable audio/video during recording
+- (P2) eventually make projects div an sub projects div a fixed size and scrollable if too long
 - if session is already running - subscribe and display without publish own video
 - apply for project by team member (add planed hours, add planed costs, )
 - invite project member (by email)
@@ -36,6 +33,7 @@ Todos
 
 Done
 ----
+- 2016-01-13 - move recordings into trash https://tokbox.com/developer/guides/archiving/
 - 2016-01-13 - move tasks & sub projects below projects div
 - 2016-01-13 - bug reload website over slug url does not work - subscription not ready 
 - 2016-01-12 - display archives and display video 
