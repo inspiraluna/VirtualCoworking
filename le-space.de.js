@@ -1,31 +1,5 @@
 Projects = new Mongo.Collection("projects");
 
-Projects.helpers({
-
-  creator: function() {
-    return Meteor.users.findOne(this.createdBy).emails[0].address;
-  },
-  childs: function(){
-      console.log('finding children: of '+this._id+' : '+Projects.find({parent: this._id}).count());
-      return Projects.find({parent: this._id});
-  },
-  parentSlug: function(){
-    console.log('looking for parent...'+this.parent+' :'+Projects.find().count());
-    if(this.parent){
-      var project = Projects.findOne(this.parent); 
-      console.log('okey found parent slug:'+project.slug);
-      return project.slug;
-    }
-    else 
-      return '';
-  },
-  archiveData: function(){
-      return Session.get('archiveData');
-  }
-
-});
-
-
 Projects.friendlySlugs( {
     slugFrom: 'projectname',
     slugField: 'slug',
@@ -36,7 +10,7 @@ Projects.friendlySlugs( {
 Router.route('/', {
     template: 'home',
     waitOn: function(){
-      return Meteor.subscribe('projects');
+      return [Meteor.subscribe('projects'),Meteor.subscribe('userData')];
     },
     data: function(){
       var project = null; //Projects.find({},{sort: {createdAt: 1}}).fetch()[0];
@@ -52,7 +26,8 @@ Router.route('/:slug', {
     name: 'projects',
     template: 'home',
     waitOn: function(){
-          return Meteor.subscribe('projects');
+          // return Meteor.subscribe('projects');
+           return [Meteor.subscribe('projects'),Meteor.subscribe('userData')];
     },
     data: function(){
 
@@ -75,6 +50,32 @@ Router.route('/:slug', {
     }
 });
 
+Projects.helpers({
+
+  creator: function() {
+    console.log(Meteor.users.findOne(this.createdBy));
+    return Meteor.users.findOne(this.createdBy);
+  },
+  childs: function(){
+      // console.log('finding children: of '+this._id+' : '+Projects.find({parent: this._id}).count());
+      return Projects.find({parent: this._id});
+  },
+  parentSlug: function(){
+    // console.log('looking for parent...'+this.parent+' :'+Projects.find().count());
+    if(this.parent){
+      var project = Projects.findOne(this.parent); 
+      // console.log('okey found parent slug:'+project.slug);
+      return project.slug;
+    }
+    else 
+      return '';
+  },
+  archiveData: function(){
+      return Session.get('archiveData');
+  }
+
+});
+
 if (Meteor.isClient) {
 
   Template.recording.helpers({
@@ -95,7 +96,9 @@ if (Meteor.isClient) {
 
   Template.home.onCreated(function () {
     this.subscribe("projects");
+    this.subscribe("userData");
   });
+
 
   Template.home.helpers({
 
@@ -117,7 +120,7 @@ if (Meteor.isClient) {
      },
 
      projectIsActive: function(id) {
-        return (this.id === id) ? "active" : ""
+        return (this.id === id) ? "active" : "";
      }
   });
 
@@ -237,13 +240,25 @@ var session = null;
 if (Meteor.isServer) {
 
   Meteor.publish('userData', function () { 
-    return Meteor.users.find({fields: {_id: 1, address: 1}} );
+    return Meteor.users.find({}, {fields: {_id: 1, address: 1, 
+      profile: 1, 
+      'services.twitter.profile_image_url_https' : 1,
+      'services.google.picture': 1,
+      'services.github.username': 1,
+      'services.facebook.id' : 1}} );
   }); 
 
   Meteor.publish('projects', function(slug){
       return Projects.find();
   });
- 
+
+  Accounts.onCreateUser(function(options, user) {
+
+  if (user.profile == undefined) { //standard account creation add email as profile
+      user.profile = {name: options.email}; 
+  }
+     return user;
+  }); 
 
   function isOwner(userId, ownerId){  
       return (userId && ownerId && userId === ownerId);
@@ -253,6 +268,8 @@ if (Meteor.isServer) {
     var adminUser = Meteor.users.findOne({ emails : { $elemMatch : { address:'nico@le-space.de' }}});
       return (userId && adminUser && userId === adminUser._id);
   }
+
+
 
   Projects.allow({
     insert: function(userId, doc){

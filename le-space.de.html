@@ -25,7 +25,7 @@
 
 				</div>
 		</div> --> 
-	{{> loginButtons}}
+	{{> loginButtons}}  
 </body>
 
 <template name="home">
@@ -36,6 +36,7 @@
 	<li>fund & source your crowd</li> -->
 	<div class="row-fluid">
 	{{#if currentUser}}
+	{{> avatar user=currentUser shape="circle"}}
 		<div class="row">
 				<div class="col-md-4">
 				<!-- 		<form class="new-project">
@@ -100,8 +101,8 @@
 
 				 <div class="panel panel-default">
                    <div class="panel-heading"><i class="delete fa fa-trash-o pull-right"></i>
-
-	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4> by {{creator}}
+                   		{{> avatar user=creator shape="circle"}}
+	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4> by {{creator.profile.name}}
 					</div>
                     <div class="panel-body">
 						<div id="layoutContainer">

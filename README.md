@@ -1,7 +1,6 @@
 Todos
 -----
 
-- (P1)  Facebook-Anmeldung (Twitter, Google+, github)
 - (P1)  User can be owner (have shares), member (have hours, rates) 
 - (P1)  add 'done in percent'
 - (P1)  if session is already running - subscribe and display without publish own video
@@ -26,6 +25,7 @@ Todos
 - add translations
 - redirect non-webrtc browser 
 - check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
+- data version management - https://github.com/thiloplanz/v7files/wiki/Vermongo
 - check https://github.com/Slava/meteor-rethinkdb
 - check information for blockchain
 	https://21.co/
@@ -35,8 +35,22 @@ Todos
 	http://www.linuxfoundation.org/news-media/announcements/2015/12/linux-foundation-unites-industry-leaders-advance-blockchain (linux foundation for blockchain
 	)
 
+Stuffs:
+mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 's/:/ -p /' | sed 's/@/ /'`
+
+
 Done
 ----
+- 2016-01-14 - (bug) add profile to normal user from email
+- 2016-01-14 - (bug) collaboration text doesn't work sometimes - shows loading - problem with user/owner? 
+- 2016-01-14 - (bug) login with https (over facebook, google, twitter, github etc.)	
+- 2016-01-14 - (p1) get photo from twitter, facebook, github etc. https://github.com/meteor-utilities/avatar
+- 2016-01-14 - (bug) connect to remote mongo
+- 2016-01-13 - P1)  Facebook-Anmeldung (Twitter, Google+, github)
+			- https://apps.twitter.com
+			- https://github.com/settings/applications/new
+			- https://developers.facebook.com/apps/1022486891149330/dashboard/
+			- https://console.developers.google.com/home/dashboard?project=inspiraluna
 - 2016-01-13 -  worked on offline data with: 
 					https://github.com/awwx/meteor-offline-data
 			 		https://subvisual.co/blog/posts/45-offline-web-apps-with-meteor

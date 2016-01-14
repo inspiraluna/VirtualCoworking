@@ -28,9 +28,10 @@ fortawesome:fontawesome
 carlodicelico:tokbox
 http
 momentjs:moment
-appcache
 ground:db
 accounts-facebook
 accounts-twitter
 accounts-google
 accounts-github
+force-ssl
+utilities:avatar
