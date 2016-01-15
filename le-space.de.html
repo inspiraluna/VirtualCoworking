@@ -1,42 +1,25 @@
 <head>
 	<title>Le Space - Virtual Coworking</title>
 </head>
-<body>	
-<!-- 		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-				<div class="container">
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-							<span class="sr-only">Toggle navigation</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<a class="navbar-brand" href="#topWrap">
-							<span class="fa-stack fa-lg">
-								<i class="fa fa-circle fa-stack-2x"></i>
-								<i class="fa fa-mobile fa-stack-1x fa-inverse"></i>
-							</span>
-							Le Space Virtual Coworking - crowd and fund
-						</a>
-					</div>
-					<div class="collapse navbar-collapse appiNav">
-
-					</div>
-
+<body>
+	<div class="row-fluid">
+		<div class="row">
+				<div class="col-md-1">
+					{{#if currentUser}}
+						{{> avatar user=currentUser shape="circle"}}
+					{{/if}}
 				</div>
-		</div> --> 
-	{{> loginButtons}}  
+				<div class="col-md-2">	{{> loginButtons}} 
+				</div>
+		</div>
+	</div>	
 </body>
 
 <template name="home">
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-
-<!-- 	<li>turn your idea into a project</li>
-	<li>fund & source your crowd</li> -->
 	<div class="row-fluid">
 	{{#if currentUser}}
-	{{> avatar user=currentUser shape="circle"}}
 		<div class="row">
 				<div class="col-md-4">
 				<!-- 		<form class="new-project">
@@ -102,7 +85,11 @@
 				 <div class="panel panel-default">
                    <div class="panel-heading"><i class="delete fa fa-trash-o pull-right"></i>
                    		{{> avatar user=creator shape="circle"}}
-	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4> by {{creator.profile.name}}
+	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4> by {{creator.profile.name}} <br>
+	                   	Online Users:{{projectUserCount}} <br>
+	                   	{{#each onlineUsers}}
+						 {{> avatar userId=user shape="circle"}}
+						{{/each}}
 					</div>
                     <div class="panel-body">
 						<div id="layoutContainer">
@@ -119,16 +106,16 @@
 
 						<form>
 							{{#if sessionId}}
-							<!-- <input type="button" id="stop-video" value="Stop Video" /> -->
-							  	<button id="stop-video" class="btn btn-primary active">VIDEO OFF</button>
+								<input type="button" id="stop-video" value="Stop Video" />
+							  	<!-- <button id="stop-video" class="btn btn-primary active">VIDEO OFF</button>  -->
 								{{#if archiveStarted}}
 									<input type="button" id="stop-archive" value="Stop Archive" />
 								{{else}}
 									<input type="button" id="start-archive" value="Start Archive" />
 								{{/if}}
 							{{else}}
-								<!-- <input type="button" id="new-video" value="Start Video" /> -->
-								 <button  id="new-video" class="btn btn-default">VIDEO ON</button>
+								<input type="button" id="new-video" value="Start Video" />
+								 <!-- <button  id="new-video" class="btn btn-default">VIDEO ON</button> -->
 							{{/if}}
 						</form>
                       </div>
@@ -145,7 +132,6 @@
 	</div>
   </div>
 </template>
-<template name="loadig">loading</template>
 <template name="recording">
 <i class="delete fa fa-trash-o pull-right"></i>
 <b>{{name}} {{duration}} sec {{niceTime}}</b><br>
@@ -155,10 +141,4 @@
 </template>
 <template name="project">
 			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	
-<!-- <div class="container">
-	<div class="row">
-		<div class="col-md-4 project"><a href="/projects/{{slug}}">{{projectname}}</a></div>
-		<div class="col-md-4">{{#if currentUser}}<button class="delete">&times;</button>{{/if}}</div>
-	</div>
-</div> -->
 </template>

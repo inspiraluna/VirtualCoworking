@@ -1,4 +1,6 @@
 Projects = new Mongo.Collection("projects");
+ProjectUsers = new Mongo.Collection("projectusers");
+
 
 Projects.friendlySlugs( {
     slugFrom: 'projectname',
@@ -14,8 +16,6 @@ Router.route('/', {
     },
     data: function(){
       var project = null; //Projects.find({},{sort: {createdAt: 1}}).fetch()[0];
-
-      console.log('found first project:'+project);
       Session.set('project',null);
       
       return project;
@@ -34,24 +34,60 @@ Router.route('/:slug', {
         if ( this.ready() ){
           console.log('slug:'+this.params.slug);
           var project = Projects.findOne({slug:this.params.slug}); 
-          
+          Session.set('project',project);
           console.log('project'+project._id);
           console.log(project?project.projectname:'no slug!'+this.params.slug);
           
-          Session.set('project',project);
 
-          Meteor.call('getArchive', Session.get('project')._id, function (error, result) {
-                 Session.set('archiveData',result);
-          });
-        
         
         return project;
       }
+    },
+    action: function () {
+
+        //manage the online user list for the project
+        var project = Projects.findOne({slug:this.params.slug}); 
+        Session.set('projectId', project._id);
+        projectuser = {
+            user            : Meteor.userId(),
+            project         : project._id, 
+            away            : false
+        };
+
+        if(!ProjectUsers.findOne({user:  Meteor.userId()}))
+        {
+          var projectUserId = ProjectUsers.insert(projectuser);
+        }
+        Session.set('projectUserId', projectUserId);
+        Meteor.subscribe('projectUsers', project._id);
+       
+        Session.set('project',project);
+
+        Meteor.call('getArchive', Session.get('project')._id, function (error, result) {
+                   Session.set('archiveData',result);
+        });
+        
+
+       this.render();
+    }, 
+    unload : function() {
+        // Remove the user from the list of users.
+ 
+        var projectUserId = Session.get('projectUserId');
+        console.log('now removing...'+projectUserId);
+        ProjectUsers.remove({ _id : projectUserId });
+        Session.set('project', null);
     }
 });
 
 Projects.helpers({
 
+  onlineUsers: function(){
+      return ProjectUsers.find();
+  },
+  projectUserCount: function(){
+      return ProjectUsers.find().count();
+  },
   creator: function() {
     console.log(Meteor.users.findOne(this.createdBy));
     return Meteor.users.findOne(this.createdBy);
@@ -78,6 +114,9 @@ Projects.helpers({
 
 if (Meteor.isClient) {
 
+if (window.location.protocol != "https:" &&  window.location.href.indexOf('localhost')==-1)
+    window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+
   Template.recording.helpers({
     niceTime: function() { 
       return moment(new Date(this.createdAt)).fromNow();
@@ -87,7 +126,6 @@ if (Meteor.isClient) {
 
   Template.recording.events({
     "click .delete": function () {
-      console.log('click:'+this.id);
       Meteor.call('deleteArchive',this.id, function (error, result) {
            console.log(error,result);
       });
@@ -98,7 +136,6 @@ if (Meteor.isClient) {
     this.subscribe("projects");
     this.subscribe("userData");
   });
-
 
   Template.home.helpers({
 
@@ -240,7 +277,7 @@ var session = null;
 if (Meteor.isServer) {
 
   Meteor.publish('userData', function () { 
-    return Meteor.users.find({}, {fields: {_id: 1, address: 1, 
+    return Meteor.users.find({}, {fields: {_id: 1, 'emails.address': 1, 
       profile: 1, 
       'services.twitter.profile_image_url_https' : 1,
       'services.google.picture': 1,
@@ -250,6 +287,18 @@ if (Meteor.isServer) {
 
   Meteor.publish('projects', function(slug){
       return Projects.find();
+  }); 
+  
+  Meteor.publish('projectUsers', function(projectId) {
+      var id = this._session.userId;
+      this._session.socket.on("close", Meteor.bindEnvironment(function()
+      {
+       //ProjectUsers.update({project: projectId},{$set:{away: true}});
+       ProjectUsers.remove({user:  id});
+      // console.log('user left project:'+id); // called once the user disconnects
+      }, function(e){console.log(e)}));
+
+    return ProjectUsers.find({ project : projectId });
   });
 
   Accounts.onCreateUser(function(options, user) {
@@ -270,6 +319,17 @@ if (Meteor.isServer) {
   }
 
 
+  ProjectUsers.allow({
+    insert: function(userId, doc){
+      return Meteor.userId()?true:false;  //adminUser(userId);
+    },
+    update: function(userId, docs, fields, modifier){
+      return isOwner(userId,docs.user) || isAdmin(userId);
+    },
+    remove: function (userId, docs){
+      return isOwner(userId,docs.user) || isAdmin(userId);
+    }
+  });
 
   Projects.allow({
     insert: function(userId, doc){
@@ -336,11 +396,9 @@ if (Meteor.isServer) {
       if(projectWithArchive.archives){
         for(var i = 0;i<projectWithArchive.archives.length;i++){
           if(projectWithArchive.archives[i].id===archiveId){
-
               projectWithArchive.archives.splice(i, 1);
-              
               Projects.update(projectWithArchive._id,{$set:{archives: projectWithArchive.archives}});
-            }
+          }
 
         }
       }

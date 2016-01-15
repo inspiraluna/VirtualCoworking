@@ -1,9 +1,13 @@
 Todos
 -----
 
+- (P1) ring project all online project members http://buzz.jaysalvat.com/documentation/sound/
+- (P1) add amazon S3 - for not deleting archives.
+- (P1) give archive a name and make it editable
+- (P1)  if session is already running - connect subscribe and display without publish own video
 - (P1)  User can be owner (have shares), member (have hours, rates) 
+
 - (P1)  add 'done in percent'
-- (P1)  if session is already running - subscribe and display without publish own video
 - (P2)  share recording (email/twitter/facebook/g+)
 - (bug) two windows of the videopartner appear.	
 - (P2)  enable/disable audio/video during recording
@@ -41,6 +45,7 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-15 - (P1) display online project members 
 - 2016-01-14 - (bug) add profile to normal user from email
 - 2016-01-14 - (bug) collaboration text doesn't work sometimes - shows loading - problem with user/owner? 
 - 2016-01-14 - (bug) login with https (over facebook, google, twitter, github etc.)	
