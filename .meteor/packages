@@ -23,7 +23,6 @@ natestrauser:x-editable-bootstrap
 iron:router
 todda00:friendly-slugs
 dburles:collection-helpers
-mizzao:sharejs
 fortawesome:fontawesome
 carlodicelico:tokbox
 http
@@ -36,3 +35,4 @@ accounts-github
 force-ssl
 utilities:avatar
 brentjanderson:buzz
+mizzao:sharejs-codemirror

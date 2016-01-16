@@ -82,6 +82,7 @@ meteorhacks:inject-initial@1.0.3
 minifiers@1.1.7
 minimongo@1.0.10
 mizzao:sharejs@0.7.5
+mizzao:sharejs-codemirror@4.12.0
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
 momentjs:moment@2.11.1

@@ -173,6 +173,16 @@ if (window.location.protocol != "https:" &&  window.location.href.indexOf('local
       Projects.remove(this._id);
     }
   });
+  
+  Template.home.config = function(){
+  return function(cm) {
+      cm.setOption("theme", "default");
+      cm.setOption("lineNumbers", true);
+      cm.setOption("lineWrapping", true);
+      cm.setOption("smartIndent", true);
+      cm.setOption("indentWithTabs", true);
+  }
+}
 
 Template.home.rendered = function(){
    var self = this;
@@ -321,7 +331,7 @@ if (Meteor.isServer) {
 
   ProjectUsers.allow({
     insert: function(userId, doc){
-      return Meteor.userId()?true:false;  //adminUser(userId);
+      return true; //Meteor.userId()?true:false;  //adminUser(userId);
     },
     update: function(userId, docs, fields, modifier){
       return isOwner(userId,docs.user) || isAdmin(userId);
