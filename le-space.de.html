@@ -6,7 +6,7 @@
 		<div class="row">
 				<div class="col-md-1">
 					{{#if currentUser}}
-						{{> avatar user=currentUser shape="circle"}}
+						{{> avatar user=currentUser shape="rounded"}}
 					{{/if}}
 				</div>
 				<div class="col-md-2">	{{> loginButtons}} 
@@ -75,21 +75,23 @@
                     </div><!--/panel-body-->
         		</div><!--/panel-->
 			</div>
-<!-- 			<div class="col-md-4">
-
-
-			</div> -->
+			{{#if projectname}}
 			<div class="col-md-4">
 				<!-- <div class="container"> -->
 
 				 <div class="panel panel-default">
                    <div class="panel-heading"><i class="delete fa fa-trash-o pull-right"></i>
-                   		{{> avatar user=creator shape="circle"}}
-	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4> by {{creator.profile.name}} <br>
-	                   	Online Users:{{projectUserCount}} <br>
+						<table style="border-collapse: separate; border-spacing: 15px;"><tr><td>
+                   			{{> avatar user=creator shape="rounded"}}</td><td>
+	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4></td><td>by {{creator.profile.name}} </td>
+	                   	<td>Online Users:{{projectUserCount}}</td>
+	                   	</tr></table>
+	                   	 <br>
+	                   	<table  style="border-collapse: separate; border-spacing: 3px;"><tr>
 	                   	{{#each onlineUsers}}
-						 {{> avatar userId=user shape="circle"}}
+						 <td>{{> avatar userId=user shape="rounded"}}</td>
 						{{/each}}
+						</tr></table>
 					</div>
                     <div class="panel-body">
 						<div id="layoutContainer">
@@ -127,8 +129,8 @@
                       </div>
                     </div><!--/panel-body-->
                  </div><!--/panel-->
-
 		</div>
+		{{/if}}
 	</div>
   </div>
 </template>

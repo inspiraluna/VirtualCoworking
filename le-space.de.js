@@ -32,15 +32,9 @@ Router.route('/:slug', {
     data: function(){
 
         if ( this.ready() ){
-          console.log('slug:'+this.params.slug);
           var project = Projects.findOne({slug:this.params.slug}); 
-          Session.set('project',project);
-          console.log('project'+project._id);
-          console.log(project?project.projectname:'no slug!'+this.params.slug);
-          
-
-        
-        return project;
+          Session.set('project',project);  
+          return project;
       }
     },
     action: function () {
@@ -67,14 +61,11 @@ Router.route('/:slug', {
                    Session.set('archiveData',result);
         });
         
-
        this.render();
     }, 
     unload : function() {
         // Remove the user from the list of users.
- 
         var projectUserId = Session.get('projectUserId');
-        console.log('now removing...'+projectUserId);
         ProjectUsers.remove({ _id : projectUserId });
         Session.set('project', null);
     }
@@ -83,11 +74,16 @@ Router.route('/:slug', {
 Projects.helpers({
 
   onlineUsers: function(){
-      return ProjectUsers.find();
+      var onlineUsers = ProjectUsers.find();
+
+
+
+      return onlineUsers;
   },
-  projectUserCount: function(){
-      return ProjectUsers.find().count();
-  },
+  // projectUserCount: function(){
+
+  //     return ProjectUsers.find().count();
+  // },
   creator: function() {
     console.log(Meteor.users.findOne(this.createdBy));
     return Meteor.users.findOne(this.createdBy);
@@ -138,6 +134,26 @@ if (window.location.protocol != "https:" &&  window.location.href.indexOf('local
   });
 
   Template.home.helpers({
+
+      projectUserCount: function(){
+
+        var onlineUsers = ProjectUsers.find().count();
+        console.log('online users:'+onlineUsers);
+        var oldCount = Session.get('onlineUsers');
+        console.log('oldCount users:'+oldCount+' onlineUsers:'+onlineUsers);
+        if(oldCount===1 && onlineUsers===2){
+
+         var ringSound = new buzz.sound("/sounds/truck",{formats: ["ogg", "mp3"]});
+         ringSound.play();
+          // mySound2 = new sound("/sounds/mysound2.ogg"),
+          // mySound3 = new sound("/sounds/mysound3.ogg");
+          // buzz.all().play();
+        }
+
+        Session.set('onlineUsers', onlineUsers);
+
+        return ProjectUsers.find().count();
+      },
 
      siblings: function(){
       if(Session.get('project')){
@@ -331,7 +347,9 @@ if (Meteor.isServer) {
 
   ProjectUsers.allow({
     insert: function(userId, doc){
-      return true; //Meteor.userId()?true:false;  //adminUser(userId);
+      var exists = ProjectUsers.findOne({project: doc.project, user: userId})
+      console.log('project already exists... what a bug!');
+      return !exists; //true; //Meteor.userId()?true:false;  //adminUser(userId);
     },
     update: function(userId, docs, fields, modifier){
       return isOwner(userId,docs.user) || isAdmin(userId);
@@ -435,7 +453,7 @@ if (Meteor.isServer) {
            return callDeleteArchiveAsyncWrap(_id,archiveId); 
         },
         getArchive: function(archiveId){
-            console.log('retrieving archive '+archiveId);
+            // console.log('retrieving archive '+archiveId);
             var archives = Projects.findOne(archiveId).archives;
             if(!archives) return null;
 

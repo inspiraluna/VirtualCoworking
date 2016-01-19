@@ -1,9 +1,10 @@
 Todos
 -----
 
-- (P1) ring project all online project members http://buzz.jaysalvat.com/documentation/sound/
-- (P1) make it beautiful 
+- (P1) make it beautiful (!)
+- (P1) make Android App (make it ring when somebody enters a room!)
 - (P1) add amazon S3 - for not deleting archives.
+- (P1) fullscreen during conference.
 - check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
 - (P1) give archive a name and make it editable
 - (P1)  if session is already running - connect subscribe and display without publish own video
@@ -30,7 +31,8 @@ Todos
 - referenced projects
 - add translations
 - redirect non-webrtc browser 
-- data version management - https://github.com/thiloplanz/v7files/wiki/Vermongo
+- check https://atmospherejs.com/splendido/accounts-meld
+- check data version management - https://github.com/thiloplanz/v7files/wiki/Vermongo
 - check https://github.com/Slava/meteor-rethinkdb
 - check information for blockchain
 	https://21.co/
@@ -40,13 +42,20 @@ Todos
 	http://www.linuxfoundation.org/news-media/announcements/2015/12/linux-foundation-unites-industry-leaders-advance-blockchain (linux foundation for blockchain
 	)
 
+Small-Things:
+- (ananda) codemirror config https://codemirror.net/doc/manual.html#addons
+- (ananda) avatar fallback icon (e.g. virtualc logo) https://github.com/meteor-utilities/avatar
+- (ananda) logos & texts for app authentication in facebook, google, github, twitter
+
 Stuffs:
 mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 's/:/ -p /' | sed 's/@/ /'`
 
 
 Done
 ----
-- 2016-01-16 - (P1) try CodeMirror
+- 2016-01-16 - (P1) ring other project member when user count becomes more then 1 http://buzz.jaysalvat.com/documentation/sound/
+- 2016-01-16 - (Bug) Don't show first project if no project selected
+- 2016-01-16 - (P1) use CodeMirror http://codemirror.net/
 - 2016-01-16 - (Bug) if not connected with registered user - access denied error during user registration
 - 2016-01-15 - (P1) display online project members 
 - 2016-01-14 - (bug) add profile to normal user from email
