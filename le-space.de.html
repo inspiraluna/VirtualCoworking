@@ -22,27 +22,15 @@
 	{{#if currentUser}}
 		<div class="row">
 				<div class="col-md-4">
-				<!-- 		<form class="new-project">
-								<input type="hidden" name="parent" value="{{_id}}"/>
-								<label for="projectname">Enter idea, projects and tasks here...</label>
-								<input type="text" id="projectname" name="projectname" placeholder="" />
-								<input type="submit" value="OK" />
-						</form> -->
 					<div class="well"> 
 	                     <form class="new-project form-horizontal" role="form">
 	                     <input type="hidden" name="parent" value="{{_id}}"/>
-	                      <h4>Enter your new idea, project or complex todo here...</h4>
+	                       <h4>Enter your new idea, project or complex todo here...</h4>
 	                       <div class="form-group" style="padding:14px;">
 	                          <button class="btn btn-success pull-right" type="submit">OK</button>
 	                       <!--  <textarea class="form-control" id="projectname" placeholder="Project, Idea or task"></textarea> -->
 	                      	<input type="text" lass="form-control" size="40" id="projectname" name="projectname" placeholder="" />
 	                      </div>
-	                   
-
-	            <!--           <ul class="list-inline">
-	                      <li><a href="#"><i class="glyphicon glyphicon-align-left"></i></a></li>
-	                      <li><a href="#"><i class="glyphicon glyphicon-align-center"></i></a></li>
-	                      <li><a href="#"><i class="glyphicon glyphicon-align-right"></i></a></li></ul> -->
 	                    </form>
                 	</div><!--/well-->
 				</div>

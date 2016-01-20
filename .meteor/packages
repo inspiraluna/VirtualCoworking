@@ -19,7 +19,6 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 accounts-password
 accounts-ui
 twbs:bootstrap
-natestrauser:x-editable-bootstrap
 iron:router
 todda00:friendly-slugs
 dburles:collection-helpers
@@ -36,3 +35,4 @@ force-ssl
 utilities:avatar
 brentjanderson:buzz
 mizzao:sharejs-codemirror
+natestrauser:x-editable-bootstrap

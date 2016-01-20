@@ -2,8 +2,19 @@ Todos
 -----
 
 - (P1) make it beautiful (!)
-- (P1) make Android App (make it ring when somebody enters a room!)
+	- closed account
+		- show only own projects after login
+		- show projects where i am owner, member 
+		- manage permissions (e.g. read, write)
+
+	- video größer / fullscreen
+	- editor großer / fullscreen (including video)
+	
+	- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
 - (P1) add amazon S3 - for not deleting archives.
+- (P1) Disable Video Button
+- (P1) make Android App (make it ring when somebody enters a room!)
+
 - (P1) fullscreen during conference.
 - check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
 - (P1) give archive a name and make it editable
