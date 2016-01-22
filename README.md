@@ -2,14 +2,18 @@ Todos
 -----
 
 - (P1) make it beautiful (!)
-	- closed account
-		- show only own projects after login
-		- show projects where i am owner, member 
-		- manage permissions (e.g. read, write)
+	- http://designmodo.com/linecons-free/
+	- https://atmospherejs.com/jelena
+- (P1) closed account
+		- insert only allowed in root or where i am owner (done)
+		- allow read/write on editor (add member)
+		- allow start conference for (add member)
+		- set private (default public) project not visible for non-members
+			(if private - generate private sharing link)
 
 	- video größer / fullscreen
 	- editor großer / fullscreen (including video)
-	
+	- bildschirmübertragung
 	- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
 - (P1) add amazon S3 - for not deleting archives.
 - (P1) Disable Video Button

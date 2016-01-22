@@ -1,30 +1,66 @@
 <head>
 	<title>Le Space - Virtual Coworking</title>
 </head>
-<body>
-	<div class="row-fluid">
-		<div class="row">
-				<div class="col-md-1">
-					{{#if currentUser}}
-						{{> avatar user=currentUser shape="rounded"}}
-					{{/if}}
-				</div>
-				<div class="col-md-2">	{{> loginButtons}} 
-				</div>
-		</div>
-	</div>	
-</body>
+<template name="mainNav"> 
+		<div id="st-container" class="st-container">
+
+			<nav class="st-menu st-effect-9" id="menu-9">
+					<div class="panel panel-default">
+                  	<div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>My Projects</h4></div>
+	                    <div class="panel-body">
+	                      <div class="list-group">
+	                        {{#each siblings}}
+								{{> project}}
+							{{/each}}
+	                      </div>
+	                    </div><!--/panel-body-->
+        			</div><!--/panel-->
+			</nav>
+
+			<!-- content push wrapper -->
+			<div class="st-pusher">
+
+				<div class="st-content">
+				<!-- this is the wrapper for the content -->
+					<div class="st-content-inner"><!-- extra div for emulating position:fixed of the menu -->
+						<div class="row-fluid">
+				               <div class="row">
+				                               <div class="col-md-1">
+					                               <div id="st-trigger-effects"><i data-effect="st-effect-9" class="fa fa-bars fa-2x"></i>
+												   </div>       
+				                               </div>
+				                               <div class="col-md-2 pull-right">  
+					                               <table style="border-collapse: separate; border-spacing: 15px;">
+					                               		   <tr>
+					                               	
+					                               			<td>{{> loginButtons}}</td>
+					                               			<td> {{#if currentUser}}
+				                                               {{> avatar user=currentUser shape="rounded"}}
+				                                       {{/if}}</td>  
+					                               		   </tr>
+					                               </table>
+				                               </div>
+				               </div>
+				        </div> 
+
+							{{>home}}
+						<!--</div> /main -->
+					</div><!-- /st-content-inner -->
+				</div><!-- /st-content -->
+			</div><!-- /st-pusher -->
+		</div><!-- /st-container -->
+
+	
+</template>
 
 <template name="home">
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 	<div class="row-fluid">
-	{{#if currentUser}}
+	{{#if isOwner }}
 		<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 col-md-offset-4">
 					<div class="well"> 
 	                     <form class="new-project form-horizontal" role="form">
-	                     <input type="hidden" name="parent" value="{{_id}}"/>
+	                       <input type="hidden" name="parent" value="{{_id}}"/>
 	                       <h4>Enter your new idea, project or complex todo here...</h4>
 	                       <div class="form-group" style="padding:14px;">
 	                          <button class="btn btn-success pull-right" type="submit">OK</button>
@@ -40,80 +76,70 @@
 
 
 		<div class="row">
-			<div class="col-md-4">
-				<div class="panel panel-default">
-                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Projects</h4></div>
-                    <div class="panel-body">
-                      <div class="list-group">
-                        {{#each siblings}}
-							{{> project}}
-						{{/each}}
-                      </div>
-                    </div><!--/panel-body-->
-        		</div><!--/panel-->
-
-        		<div class="panel panel-default">
-                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Sub-Projects / Tasks</h4></div>
-                    <div class="panel-body">
-                      <div class="list-group">
-                        {{#each childs}}
-							{{> project}}
-						{{/each}}
-                      </div>
-                    </div><!--/panel-body-->
-        		</div><!--/panel-->
-			</div>
 			{{#if projectname}}
-			<div class="col-md-4">
+			<div class="col-md-4 col-md-offset-4">
 				<!-- <div class="container"> -->
 
 				 <div class="panel panel-default">
-                   <div class="panel-heading"><i class="delete fa fa-trash-o pull-right"></i>
-						<table style="border-collapse: separate; border-spacing: 15px;"><tr><td>
-                   			{{> avatar user=creator shape="rounded"}}</td><td>
-	                   	<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4></td><td>by {{creator.profile.name}} </td>
-	                   	<td>Online Users:{{projectUserCount}}</td>
-	                   	</tr></table>
-	                   	 <br>
-	                   	<table  style="border-collapse: separate; border-spacing: 3px;"><tr>
-	                   	{{#each onlineUsers}}
-						 <td>{{> avatar userId=user shape="rounded"}}</td>
-						{{/each}}
-						</tr></table>
+                   <div class="panel-heading">
+                   			{{#if isOwner }}<i class="delete fa fa-trash-o pull-right"></i>{{/if}}
+						<table style="border-collapse: separate; border-spacing: 15px;">
+								<tr>
+									<td>{{> avatar user=creator size="small" shape="rounded"}}</td>
+									<td>
+			                   			<h4 id="projectname" class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter project name" data-rows="4">{{projectname}}</h4>
+			                   		</td>
+			                   		<td>by {{creator.profile.name}} </td>
+			                   		<td>Online Users:{{projectUserCount}}</td>
+			                   	</tr>
+			             </table>
+			             <br>
+			             <table  style="border-collapse: separate; border-spacing: 3px;">
+			             	<tr>
+	                   			{{#each onlineUsers}}
+						 			<td>{{> avatar userId=user size="extra-small" shape="rounded"}}</td>
+								{{/each}}
+							</tr>
+						</table>
 					</div>
                     <div class="panel-body">
+                        <div class="btn-group pull-right btn-toggle"> 
+							<form>
+								{{#if sessionId}}
+									<i id="stop-video" class="fa fa-video-camera fa-3x"></i>
+									{{#if archiveStarted}}
+									<i id="stop-archive" class="fa fa-file-video-o fa-3x" ></i>
+									{{else}}
+									<i class="fa fa-file-video-o fa-3x" id="start-archive" style="color: red"></i>
+									{{/if}}
+								{{else}}
+									<i id="new-video" class="fa fa-video-camera fa-3x" style="color: red"></i>
+								{{/if}}
+							</form>
+                      	</div>
+                      	<br>
 						<div id="layoutContainer">
 							<div id="publisherContainer"></div>
 						</div>
-
-                      <div class="clearfix"></div>
-                      <hr>
-                      {{> sharejsCM onRender=config docid=_id id="editor"}}
-				<!-- 		<p id="description"  class="editable" data-type="textarea" data-display="false"  data-placeholder="Enter text" data-emptytext="Click to enter description" data-rows="4">{{description}}
-						</p> -->
-                      <hr>
-                      <div class="btn-group pull-right btn-toggle"> 
-
-						<form>
-							{{#if sessionId}}
-								<input type="button" id="stop-video" value="Stop Video" />
-							  	<!-- <button id="stop-video" class="btn btn-primary active">VIDEO OFF</button>  -->
-								{{#if archiveStarted}}
-									<input type="button" id="stop-archive" value="Stop Archive" />
-								{{else}}
-									<input type="button" id="start-archive" value="Start Archive" />
-								{{/if}}
-							{{else}}
-								<input type="button" id="new-video" value="Start Video" />
-								 <!-- <button  id="new-video" class="btn btn-default">VIDEO ON</button> -->
-							{{/if}}
-						</form>
-                      </div>
+						<br>
+                      	{{> sharejsCM onRender=config docid=_id id="editor"}}
+						<br>
+                 	   <div class="panel panel-default">
+		                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Sub-Projects / Tasks</h4></div>
+		                    <div class="panel-body">
+		                      <div class="list-group">
+		                        {{#each childs}}
+									{{> project}}
+								{{/each}}
+		                      </div>
+		                    </div><!--/panel-body-->
+		        		</div><!--/panel-->
                       <div>
+                       <div class="panel panel-default">
 						{{#each archiveData}}
 							{{> recording}}
 						{{/each}}
-            
+            			</div>
                       </div>
                     </div><!--/panel-body-->
                  </div><!--/panel-->
@@ -123,8 +149,10 @@
   </div>
 </template>
 <template name="recording">
-<i class="delete fa fa-trash-o pull-right"></i>
-<b>{{name}} {{duration}} sec {{niceTime}}</b><br>
+{{#if isOwner }}<i class="delete fa fa-trash-o pull-right"></i>{{/if}}
+<b> 
+<!-- {{name}} -->
+{{duration}} sec {{niceTime}}</b><br>
 
 <div style="width:350px;" class="embed-responsive embed-responsive-16by9">
 <video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div>

@@ -1,7 +1,5 @@
 
-
-//only publish users   
-Meteor.publish('userData', function () { 
+  Meteor.publish('userData', function () { 
       return Meteor.users.find({}, {fields: {_id: 1, //'emails.address': 1, 
         profile: 1, 
         'services.twitter.profile_image_url_https' : 1,
@@ -11,16 +9,14 @@ Meteor.publish('userData', function () {
   }); 
 
   Meteor.publish('projects', function(slug){
+     // return Projects.find({createdBy: this._session.userId});
       return Projects.find();
   }); 
     
   Meteor.publish('projectUsers', function(projectId) {
       var id = this._session.userId;
-      this._session.socket.on("close", Meteor.bindEnvironment(function()
-      {
-       //ProjectUsers.update({project: projectId},{$set:{away: true}});
-       ProjectUsers.remove({user:  id});
-      // console.log('user left project:'+id); // called once the user disconnects
+      this._session.socket.on("close", Meteor.bindEnvironment(function(){
+          ProjectUsers.remove({user:  id});
       }, function(e){console.log(e)}));
 
     return ProjectUsers.find({ project : projectId });
@@ -35,7 +31,7 @@ Meteor.publish('userData', function () {
   }); 
 
   function isOwner(userId, ownerId){  
-      return (userId && ownerId && userId === ownerId);
+      return (userId === ownerId);
   }
 
   function isAdmin(userId) {  
@@ -60,7 +56,14 @@ Meteor.publish('userData', function () {
 
   Projects.allow({
     insert: function(userId, doc){
-      return Meteor.userId()?true:false;  //adminUser(userId);
+      if(!doc && userId) return true;
+      return isOwner(userId,doc.createdBy) || isAdmin(userId);
+      // var parentProject = Projects.findOne(doc.parent)
+      //only add when parent project is null or 
+      //remote user is parent project creator is the same 
+      // if(!parentProject) return Meteor.userId()?true:false;  //adminUser(userId);
+      // else if (parentProject && Meteor.userId() == parentProject.createdBy) return true;
+      // else return false;
     },
     update: function(userId, docs, fields, modifier){
       return isOwner(userId,docs.createdBy) || isAdmin(userId);
@@ -155,7 +158,6 @@ Meteor.publish('userData', function () {
            return callDeleteArchiveAsyncWrap(_id,archiveId); 
         },
         getArchive: function(archiveId){
-            // console.log('retrieving archive '+archiveId);
             var archives = Projects.findOne(archiveId).archives;
             if(!archives) return null;
 
