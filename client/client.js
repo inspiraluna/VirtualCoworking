@@ -1,11 +1,18 @@
-
 if (window.location.protocol != "https:" &&  window.location.href.indexOf('localhost')==-1)
     window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+
+$(document).ready(function(){ $.cookieBar(); });
 
   Template.recording.helpers({
     niceTime: function() { 
       return moment(new Date(this.createdAt)).fromNow();
       //return moment(new Date(this.createdAt)).format('l LT');
+    },
+    isOwner : function(){
+       console.log('searching archives for archive: '+this.id);
+       var p = Projects.findOne({'archives.id': this.id});
+       console.log('found project:'+p.projectname);
+       return (Meteor.userId() === p.createdBy);
     }
   });
 
@@ -103,6 +110,10 @@ if (window.location.protocol != "https:" &&  window.location.href.indexOf('local
     return e.parentNode && hasParentClass( e.parentNode, classname );
   }
 
+  function resetMenu(container) {
+        classie.remove( container, 'st-menu-open' );
+  }
+
   // http://coveroverflow.com/a/11381730/989439
   function mobilecheck() {
     var check = false;
@@ -116,12 +127,9 @@ Template.mainNav.rendered = function(){
       buttons = Array.prototype.slice.call( document.querySelectorAll( '#st-trigger-effects > i' ) ),
       // event type (if mobile use touch events)
       eventtype = mobilecheck() ? 'touchstart' : 'click',
-      resetMenu = function() {
-        classie.remove( container, 'st-menu-open' );
-      },
       bodyClickFn = function(evt) {
         if( !hasParentClass( evt.target, 'st-menu' ) ) {
-          resetMenu();
+          resetMenu(container);
           document.removeEventListener( eventtype, bodyClickFn );
         }
       };
@@ -178,21 +186,21 @@ var session = null;
             Session.set('sessionId', sessionId);
 
             Meteor.call("token", sessionId, function (error, result) {
-            var token = result;
-            var apiKey = "45454102";
-            session = OT.initSession(apiKey,sessionId);
-            session.on("streamCreated", function(event){
-                session.subscribe(event.stream, "layoutContainer", {
-                    insertMode: "append"
-                });
-                layout();
-            }).connect(token, function (err) {
-                if (!err) {
-                    Projects.update(Session.get('project')._id,{$set:{sessionId: sessionId}});
-                    session.publish("publisherContainer");
-                   // layout();
-                }
-            });
+              var token = result;
+              var apiKey = "45454102";
+              session = OT.initSession(apiKey,sessionId);
+              session.on("streamCreated", function(event){
+                  session.subscribe(event.stream, "layoutContainer", {
+                      insertMode: "append"
+                  });
+                  layout();
+              }).connect(token, function (err) {
+                  if (!err) {
+                      Projects.update(Session.get('project')._id,{$set:{sessionId: sessionId}});
+                      session.publish("publisherContainer");
+                     // layout();
+                  }
+              });
           });
          });         
         },
@@ -212,7 +220,6 @@ var session = null;
         "click #start-archive": function (event) {
          event.preventDefault();
           Meteor.call("startArchive",  Session.get('project')._id, Session.get('sessionId'), function (error, result) {  
-          console.log('archive:'+result.id);
           Session.set('archiveStarted', result.id);
          });         
         },

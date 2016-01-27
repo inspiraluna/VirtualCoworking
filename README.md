@@ -1,25 +1,27 @@
 Todos
 -----
 
-- (P1) make it beautiful (!)
-	- http://designmodo.com/linecons-free/
-	- https://atmospherejs.com/jelena
-- (P1) closed account
-		- insert only allowed in root or where i am owner (done)
-		- allow read/write on editor (add member)
-		- allow start conference for (add member)
-		- set private (default public) project not visible for non-members
+(Mi)
+- (Bug) Archiv does not display anymore after S3 link-In.	
+	https://tokbox.com/developer/guides/archiving/using-s3.html
+	https://tokbox.com/developer/guides/archiving/using-s3.html
+
+- (P1) video größer / fullscreen
+- (P1) editor großer / fullscreen (including video)
+- screen sharing
+
+- allow read/write on editor (add member)
+- allow start conference for (add member)
+- set private (default public) project not visible for non-members
 			(if private - generate private sharing link)
 
-	- video größer / fullscreen
-	- editor großer / fullscreen (including video)
-	- bildschirmübertragung
-	- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
-- (P1) add amazon S3 - for not deleting archives.
+
+- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
+
 - (P1) Disable Video Button
 - (P1) make Android App (make it ring when somebody enters a room!)
 
-- (P1) fullscreen during conference.
+
 - check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
 - (P1) give archive a name and make it editable
 - (P1)  if session is already running - connect subscribe and display without publish own video
@@ -68,6 +70,16 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-27 (Bug) Archive cannot get deleted after isOwner implementation
+- 2016-01-27 (P1) add amazon S3 - for not deleting archives.
+- 2016-01-20 (P1) make it more beautiful (!)
+				- http://designmodo.com/linecons-free/
+				- https://atmospherejs.com/jelena
+- 2016-01-23 (P1)  
+				- closed account
+				- insert only allowed in root or where i am owner (done)
+- 2016-01-22 	- make it more beautiful 
+			 	- permissions
 - 2016-01-16 - (P1) ring other project member when user count becomes more then 1 http://buzz.jaysalvat.com/documentation/sound/
 - 2016-01-16 - (Bug) Don't show first project if no project selected
 - 2016-01-16 - (P1) use CodeMirror http://codemirror.net/
