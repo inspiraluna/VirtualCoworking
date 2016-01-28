@@ -34,9 +34,10 @@
 					                               		   <tr>
 					                               	
 					                               			<td>{{> loginButtons}}</td>
-					                               			<td> {{#if currentUser}}
-				                                               {{> avatar user=currentUser shape="rounded"}}
-				                                       {{/if}}</td>  
+					                               			<td>{{#if currentUser}}
+				                                               		{{> avatar user=currentUser shape="rounded"}}
+				                                       			{{/if}}
+				                                       		</td>  
 					                               		   </tr>
 					                               </table>
 				                               </div>
@@ -60,8 +61,12 @@
 				<div class="col-md-6 col-md-offset-3">
 					<div class="well"> 
 	                     <form class="new-project form-horizontal" role="form">
-	                       <input type="hidden" name="parent" value="{{_id}}"/>
-	                       <h4>Enter your new idea, project or complex todo here...</h4>
+	                       <input type="hidden" name="parent" value="{{_id}}"/> 
+	                       {{#if _id}}
+	                       		<h4>Enter project structure or todos ...</h4>
+	                       {{else}}
+								<h4>Enter your new idea, project or complex todo here...</h4>
+	                       {{/if}}
 	                       <div class="form-group" style="padding:14px;">
 	                          <button class="btn btn-success pull-right" type="submit">OK</button>
 	                       <!--  <textarea class="form-control" id="projectname" placeholder="Project, Idea or task"></textarea> -->
@@ -82,7 +87,8 @@
 
 				 <div class="panel panel-default">
                    <div class="panel-heading">
-                   			{{#if isOwner }}<i class="delete fa fa-trash-o pull-right"></i>{{/if}}
+                   <i class="directoryUp fa fa-folder-open fa-3x"></i>
+                   			{{#if projectCanBeDeleted}}<i class="delete fa fa-trash-o fa-3x pull-right"></i>{{/if}}
 						<table style="border-collapse: separate; border-spacing: 15px;">
 								<tr>
 									<td>{{> avatar user=creator size="small" shape="rounded"}}</td>

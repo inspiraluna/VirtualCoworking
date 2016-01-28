@@ -1,19 +1,18 @@
 Todos
 -----
 
-- (P1-Enhancement) after new project in root jump into project (not inside a project)
-
+- (P1-Enhancement) in one project jump one level up (folder up)
+- (P1-Layout) logo for Virtual Coworking (old le-space logo?)
+- (P1-Layout) color for Virtual Coworking 
+- (P1) own page for each recording (e.g. in order to share an archive link)
 - (P1) video größer / fullscreen
 - (P1) editor großer / fullscreen (including video)
 - (P2) screen sharing
-
-- allow read/write on editor (add member)
-- allow start conference for (add member)
-- set private (default public) project not visible for non-members
+- (P1) allow read/write on editor (add member)
+- (P1)  allow start conference for (add member)
+- (P1) set private (default public) project not visible for non-members
 			(if private - generate private sharing link)
-
-
-- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
+- (P2) notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
 
 - (P1) Disable Video Button
 - (P1) make Android App (make it ring when somebody enters a room!)
@@ -67,6 +66,12 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-28 - (Evaluation) Spacebars https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md
+- 2016-01-28 - (P1-Bug) if project has children don't allow to delete
+- 2016-01-28 - (P1-Enhancement) after project/task delete jump one level up
+- 2016-01-28 - (P1-Enhancement) change label of project insert box to task/structure input
+- 2016-01-28 - (P1-Enhancement) after new project in root jump into project (not inside a project)
+- 2016-01-28 - (Bug) Archive duration is 0 must be set from opentok api
 - 2016-01-27 - (Bug) Archiv does not display anymore after S3 link-In.	
 					https://tokbox.com/developer/guides/archiving/using-s3.html
 - 2016-01-27 (Bug) Archive cannot get deleted after isOwner implementation

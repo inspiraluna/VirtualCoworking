@@ -166,13 +166,12 @@ var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
             // console.log('found project:'+JSON.stringify(p));
             var data  = [];
             for(var i = 0;i<p.archives.length;i++){
-                  // var origArchive = callGetArchiveAsyncWrap(p.archives[i].id).content;
-                  // console.log('--->'+p.archives[i].id);
                   var origArchive = JSON.parse(callGetArchiveAsyncWrap(p.archives[i].id).content);
                   console.log(JSON.stringify(origArchive));
                   var archive = { 
                     id: origArchive.id,
                     name: p.projectname+' '+i,
+                    duration: origArchive.duration,
                     createdAt: origArchive.createdAt,
                     url: 'https://s3-eu-west-1.amazonaws.com/virtualc/'+apiKey+'/'+p.archives[i].id+'/archive.mp4'
                   };

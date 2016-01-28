@@ -3,24 +3,6 @@ if (window.location.protocol != "https:" &&  window.location.href.indexOf('local
 
 $(document).ready(function(){ $.cookieBar(); });
 
-  Template.recording.helpers({
-    niceTime: function() { 
-      return moment(new Date(this.createdAt)).fromNow();
-      //return moment(new Date(this.createdAt)).format('l LT');
-    },
-    isOwner : function(){
-       var p = Projects.findOne({'archives.id': this.id});
-       return (Meteor.userId() === p.createdBy);
-    }
-  });
-
-  Template.recording.events({
-    "click .delete": function () {
-      Meteor.call('deleteArchive',this.id, function (error, result) {
-           console.log(error,result);
-      });
-    }
-  });
 
   Template.mainNav.helpers({
     siblings: function(){
@@ -40,14 +22,20 @@ $(document).ready(function(){ $.cookieBar(); });
 
   Template.home.helpers({
 
+      config: function(){
+        return function(cm) {
+          cm.setOption("theme", "default");
+          cm.setOption("lineNumbers", true);
+          cm.setOption("lineWrapping", true);
+          cm.setOption("smartIndent", true);
+          cm.setOption("indentWithTabs", true);
+      }},
       isOwner : function(){
        return (Meteor.userId() === this.createdBy) || (Meteor.userId() && this.createdBy ==null);
       },
       projectUserCount: function(){
         var onlineUsers = ProjectUsers.find().count();
-        console.log('online users:'+onlineUsers);
         var oldCount = Session.get('onlineUsers');
-        console.log('oldCount users:'+oldCount+' onlineUsers:'+onlineUsers);
         if(oldCount===1 && onlineUsers===2){
             var ringSound = new buzz.sound("/sounds/truck",{formats: ["ogg", "mp3"]});
             ringSound.play();
@@ -55,6 +43,11 @@ $(document).ready(function(){ $.cookieBar(); });
         Session.set('onlineUsers', onlineUsers);
 
         return ProjectUsers.find().count();
+      },
+      projectCanBeDeleted : function(){
+        console.log( Projects.find({parent: this._id}).count()==0);
+        console.log(Template.home.__helpers.get('isOwner').call());
+        return Template.home.__helpers.get('isOwner').call() && Projects.find({parent: this._id}).count()==0;
       },
       siblings: function(){
         if(Session.get('project')){
@@ -64,11 +57,9 @@ $(document).ready(function(){ $.cookieBar(); });
           return Projects.find({parent: null});
         } 
      },
-     
      sessionId: function() {
         return  Session.get('sessionId');
      },
-     
      archiveStarted: function() {
         return  Session.get('archiveStarted');
      },
@@ -85,20 +76,38 @@ $(document).ready(function(){ $.cookieBar(); });
   });
 
   Template.home.events({
+    "click .directoryUp": function () {
+        var parent = Projects.findOne(this.parent);
+        if(parent) Router.go('/'+parent.slug);
+        else Router.go('/');
+    },
     "click .delete": function () {
-        Projects.remove(this._id);
+        var parent = Projects.findOne(this.parent);
+        Projects.remove(this._id, function(error){
+                if(parent) Router.go('/'+parent.slug);
+                else Router.go('/');
+        });
     }
   });
-  
-  Template.home.config = function(){
-    return function(cm) {
-        cm.setOption("theme", "default");
-        cm.setOption("lineNumbers", true);
-        cm.setOption("lineWrapping", true);
-        cm.setOption("smartIndent", true);
-        cm.setOption("indentWithTabs", true);
+
+  Template.recording.helpers({
+    niceTime: function() { 
+      return moment(new Date(this.createdAt)).fromNow();
+      //return moment(new Date(this.createdAt)).format('l LT');
+    },
+    isOwner : function(){
+       var p = Projects.findOne({'archives.id': this.id});
+       return (Meteor.userId() === p.createdBy);
     }
-  }
+  });
+
+  Template.recording.events({
+    "click .delete": function () {
+      Meteor.call('deleteArchive',this.id, function (error, result) {
+           console.log(error,result);
+      });
+    }
+  });
 
   function hasParentClass( e, classname ) {
     if(e === document) return false;
@@ -149,6 +158,7 @@ Template.mainNav.rendered = function(){
     } );
 
 }
+
 Template.home.rendered = function(){
    var self = this;
    if(Meteor.userId()){
@@ -240,8 +250,13 @@ var session = null;
               parent: parent,
               createdBy: Meteor.userId(),
               createdAt: new Date()
-            });
+            }, function(error, _id){
+                //jump into project
+                var slug = Projects.findOne(_id).slug;
+                if(!parent) Router.go('/'+slug);
+          });
 
           event.target.projectname.value =  '';
+
         }
   });
