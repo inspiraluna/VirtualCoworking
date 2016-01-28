@@ -1,14 +1,11 @@
 Todos
 -----
 
-(Mi)
-- (Bug) Archiv does not display anymore after S3 link-In.	
-	https://tokbox.com/developer/guides/archiving/using-s3.html
-	https://tokbox.com/developer/guides/archiving/using-s3.html
+- (P1-Enhancement) after new project in root jump into project (not inside a project)
 
 - (P1) video größer / fullscreen
 - (P1) editor großer / fullscreen (including video)
-- screen sharing
+- (P2) screen sharing
 
 - allow read/write on editor (add member)
 - allow start conference for (add member)
@@ -70,6 +67,8 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-27 - (Bug) Archiv does not display anymore after S3 link-In.	
+					https://tokbox.com/developer/guides/archiving/using-s3.html
 - 2016-01-27 (Bug) Archive cannot get deleted after isOwner implementation
 - 2016-01-27 (P1) add amazon S3 - for not deleting archives.
 - 2016-01-20 (P1) make it more beautiful (!)

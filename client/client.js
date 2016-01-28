@@ -9,9 +9,7 @@ $(document).ready(function(){ $.cookieBar(); });
       //return moment(new Date(this.createdAt)).format('l LT');
     },
     isOwner : function(){
-       console.log('searching archives for archive: '+this.id);
        var p = Projects.findOne({'archives.id': this.id});
-       console.log('found project:'+p.projectname);
        return (Meteor.userId() === p.createdBy);
     }
   });

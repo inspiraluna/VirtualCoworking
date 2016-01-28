@@ -1,3 +1,5 @@
+var apiKey = '45454102';  
+var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
 
   Meteor.publish('userData', function () { 
       return Meteor.users.find({}, {fields: {_id: 1, //'emails.address': 1, 
@@ -73,8 +75,6 @@
     }
   });
 
-    var apiKey = '45454102';  
-    var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
     var openTokClient = new OpenTokClient(apiKey, apiSecret);
 
     var callStartArchiveAsync = function(_id, sessionId, callback){
@@ -157,14 +157,28 @@
         deleteArchive: function(_id,archiveId){
            return callDeleteArchiveAsyncWrap(_id,archiveId); 
         },
-        getArchive: function(archiveId){
-            var archives = Projects.findOne(archiveId).archives;
-            if(!archives) return null;
+        getArchive: function(id){
+            console.log('looking for archive of:'+id);
+            var p = Projects.findOne(id);
+            
+            if(!p || !p.archives) return null;
 
+            // console.log('found project:'+JSON.stringify(p));
             var data  = [];
-            for(var i = 0;i<archives.length;i++){
-                  var archive = callGetArchiveAsyncWrap(archives[i].id).content;
-                  data.push(JSON.parse(archive));
+            for(var i = 0;i<p.archives.length;i++){
+                  // var origArchive = callGetArchiveAsyncWrap(p.archives[i].id).content;
+                  // console.log('--->'+p.archives[i].id);
+                  var origArchive = JSON.parse(callGetArchiveAsyncWrap(p.archives[i].id).content);
+                  console.log(JSON.stringify(origArchive));
+                  var archive = { 
+                    id: origArchive.id,
+                    name: p.projectname+' '+i,
+                    createdAt: origArchive.createdAt,
+                    url: 'https://s3-eu-west-1.amazonaws.com/virtualc/'+apiKey+'/'+p.archives[i].id+'/archive.mp4'
+                  };
+
+                  console.log(archive);
+                  data.push(archive);  // https://s3-eu-west-1.amazonaws.com/virtualc/45454102/8f2cb962-42c5-4711-a3ed-8e3562dfa7f6/archive.mp4
             }
             return data;
         },
