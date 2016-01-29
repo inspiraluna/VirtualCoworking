@@ -142,10 +142,16 @@ var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
     
     var callDeleteArchiveAsyncWrap = Meteor.wrapAsync(callDeleteArchiveAsync);
 
+    var getSnapshotSync = Meteor.wrapAsync(ShareJS.model.getSnapshot);
+    
+
     Meteor.startup(function () {
       console.log('starting up...');
       Meteor.methods({
-
+        documentSnapshot : function(_id){
+            var result = getSnapshotSync(_id);
+            return result.snapshot;
+        },
         startArchive: function(_id, sessionId){
           return callStartArchiveAsyncWrap(_id, sessionId);       
         },

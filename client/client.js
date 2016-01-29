@@ -3,6 +3,35 @@ if (window.location.protocol != "https:" &&  window.location.href.indexOf('local
 
 $(document).ready(function(){ $.cookieBar(); });
 
+var defaults = {
+  title: '',                 // Will apply to <title>, Twitter and OpenGraph.
+  suffix: 'Virtual Coworking',
+  separator: '·',
+
+  description: 'Transparent project communications',        // Will apply to meta, Twitter and OpenGraph.
+  image: 'http://www.le-space.de/les_button_klein.png',   // Will apply to Twitter and OpenGraph.
+
+  meta: {
+    keywords: ['tag1', 'tag2']
+  },
+
+  twitter: {
+    card: 'summary',
+    creator: '@handle'
+    // etc.
+  },
+
+  og: {
+    site_name: 'Virtual Coworking',
+    image: '/images/virtualcoworking.png'
+    // etc.
+  }
+};
+
+var options = {
+  defaults: defaults
+};
+Router.plugin('seo', options);
 
   Template.mainNav.helpers({
     siblings: function(){
@@ -33,6 +62,14 @@ $(document).ready(function(){ $.cookieBar(); });
       isOwner : function(){
        return (Meteor.userId() === this.createdBy) || (Meteor.userId() && this.createdBy ==null);
       },
+      documentSnapshot: function() {
+
+         Meteor.call("documentSnapshot", this._id, function (error, result) {  
+            Session.set('documentSnapshot', result);
+         }); 
+        
+         return Session.get('documentSnapshot');
+      }, 
       projectUserCount: function(){
         var onlineUsers = ProjectUsers.find().count();
         var oldCount = Session.get('onlineUsers');
@@ -45,8 +82,6 @@ $(document).ready(function(){ $.cookieBar(); });
         return ProjectUsers.find().count();
       },
       projectCanBeDeleted : function(){
-        console.log( Projects.find({parent: this._id}).count()==0);
-        console.log(Template.home.__helpers.get('isOwner').call());
         return Template.home.__helpers.get('isOwner').call() && Projects.find({parent: this._id}).count()==0;
       },
       siblings: function(){
@@ -68,7 +103,7 @@ $(document).ready(function(){ $.cookieBar(); });
         return (this.id === id) ? "active" : "";
      }
   });
-
+  
   Template.project.helpers({
      projectIsActive: function(id, activeId) {
         return (id === activeId) ? "active" : "";

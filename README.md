@@ -1,15 +1,19 @@
 Todos
 -----
-
-- (P1-Enhancement) in one project jump one level up (folder up)
-- (P1-Layout) logo for Virtual Coworking (old le-space logo?)
-- (P1-Layout) color for Virtual Coworking 
-- (P1) own page for each recording (e.g. in order to share an archive link)
-- (P1) video größer / fullscreen
-- (P1) editor großer / fullscreen (including video)
+- (P1) SEO with Meteor 
+	https://atmospherejs.com/lookback/seo
+	http://ogp.me/ (OpenGraph)
+	http://www.manuel-schoebel.com/blog/meteor-and-seo
+- (P1) Change title according to project name 
+- (P1) Add meta data to post (use text from editor)
+- (P1) let people write into writer only when they are logged in
+- (P2) own page for each recording (e.g. in order to share an archive link)
+- (P2) video größer during conference / fullscreen
+- (P2) editor großer / fullscreen (including video)
 - (P2) screen sharing
 - (P1) allow read/write on editor (add member)
 - (P1)  allow start conference for (add member)
+- (P1) give archive a name and make it editable
 - (P1) set private (default public) project not visible for non-members
 			(if private - generate private sharing link)
 - (P2) notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
@@ -18,8 +22,8 @@ Todos
 - (P1) make Android App (make it ring when somebody enters a room!)
 
 
-- check drag&drop of layers https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
-- (P1) give archive a name and make it editable
+- check drag&drop (moving) of projects https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
+
 - (P1)  if session is already running - connect subscribe and display without publish own video
 - (P1)  User can be owner (have shares), member (have hours, rates) 
 
@@ -66,6 +70,7 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-28 - (P1-Enhancement) in one project jump one level up (folder up)
 - 2016-01-28 - (Evaluation) Spacebars https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md
 - 2016-01-28 - (P1-Bug) if project has children don't allow to delete
 - 2016-01-28 - (P1-Enhancement) after project/task delete jump one level up

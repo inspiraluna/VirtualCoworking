@@ -1,5 +1,9 @@
 <head>
 	<title>Le Space - Virtual Coworking</title>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+
 </head>
 <template name="mainNav"> 
 		<div id="st-container" class="st-container">
@@ -128,7 +132,11 @@
 							<div id="publisherContainer"></div>
 						</div>
 						<br>
-                      	{{> sharejsCM onRender=config docid=_id id="editor"}}
+						{{#if isOwner }}
+                      		{{> sharejsCM onRender=config docid=_id id="editor"}}
+						{{else}}
+							<pre>{{documentSnapshot}}</pre>
+						{{/if}}
 						<br>
                  	   <div class="panel panel-default">
 		                  <div class="panel-heading"><a href="/{{parentSlug}}" class="pull-right">Up</a> <h4>Sub-Projects / Tasks</h4></div>
