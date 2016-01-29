@@ -6,13 +6,13 @@ $(document).ready(function(){ $.cookieBar(); });
 var defaults = {
   title: '',                 // Will apply to <title>, Twitter and OpenGraph.
   suffix: 'Virtual Coworking',
-  separator: '·',
+  separator: ',',
 
   description: 'Transparent project communications',        // Will apply to meta, Twitter and OpenGraph.
   image: 'http://www.le-space.de/les_button_klein.png',   // Will apply to Twitter and OpenGraph.
 
   meta: {
-    keywords: ['tag1', 'tag2']
+    keywords: ['coworking', 'crowd', 'videoconference', 'video', 'conference', 'funding']
   },
 
   twitter: {
