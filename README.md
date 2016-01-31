@@ -1,13 +1,14 @@
 Todos
 -----
-- (P1) SEO with Meteor 
-	https://atmospherejs.com/lookback/seo
-	http://ogp.me/ (OpenGraph)
-	http://www.manuel-schoebel.com/blog/meteor-and-seo
-- (P1) Change title according to project name 
-- (P1) Add meta data to post (use text from editor)
-- (P1) let people write into writer only when they are logged in
-- (P2) own page for each recording (e.g. in order to share an archive link)
+
+- (P1) use markdown to display written text https://atmospherejs.com/meteor/markdown
+
+
+
+- (P1) Permissions for new user - let people write into writer only when they are logged in
+- (P1) own page for each recording (e.g. in order to share an archive link)
+
+
 - (P2) video größer during conference / fullscreen
 - (P2) editor großer / fullscreen (including video)
 - (P2) screen sharing
@@ -59,7 +60,11 @@ Todos
 	http://www.linuxfoundation.org/news-media/announcements/2015/12/linux-foundation-unites-industry-leaders-advance-blockchain (linux foundation for blockchain
 	)
 
-Small-Things:
+"Small-Things":
+- delete ShareJS document when project is deleted 
+- delete archives document from s3 when project is deleted 
+- delete all orphaned shareJS documents 
+- delete all orphaned archives from s3
 - (ananda) codemirror config https://codemirror.net/doc/manual.html#addons
 - (ananda) avatar fallback icon (e.g. virtualc logo) https://github.com/meteor-utilities/avatar
 - (ananda) logos & texts for app authentication in facebook, google, github, twitter
@@ -70,6 +75,20 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 Done
 ----
+- 2016-01-31 - (P1) S3 Autopublish opentok
+- 2016-01-30 - (P1) snapshot of meteor.call editortext and video.url into publish/subscription 
+				http://stackoverflow.com/questions/29923423/meteor-iron-router-waiton-without-subscribe
+				http://stackoverflow.com/questions/31238275/how-to-publish-multiple-collections-in-single-subscription-call-in-meteor
+- 2016-01-29 - (P1) SEO with Meteor 
+				https://atmospherejs.com/lookback/seo
+				OpenGraph http://ogp.me/ (OpenGraph)
+				Meteor & Seo http://www.manuel-schoebel.com/blog/meteor-and-seo
+				Facebook OG Debug https://developers.facebook.com/tools/debug/og/object/
+				HTML5 Fallback & Flash https://blog.kaltura.org/facebook-now-require-html5-and-fallback-in-open-graph/
+				JWPlayer & Facebook http://www.jwplayer.com/blog/publish-your-videos-to-facebook-with-a-jw-player/
+				Twitter Cards https://dev.twitter.com/cards/markup
+- (P1) Change title according to project name 
+- (P1) Add meta data to post (use text from editor)
 - 2016-01-28 - (P1-Enhancement) in one project jump one level up (folder up)
 - 2016-01-28 - (Evaluation) Spacebars https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md
 - 2016-01-28 - (P1-Bug) if project has children don't allow to delete

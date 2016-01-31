@@ -2,6 +2,7 @@
 	<title>Le Space - Virtual Coworking</title>
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta property="fb:app_id" content="1022486891149330">
     <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 
 </head>
@@ -150,7 +151,7 @@
 		        		</div><!--/panel-->
                       <div>
                        <div class="panel panel-default">
-						{{#each archiveData}}
+						{{#each archives}}
 							{{> recording}}
 						{{/each}}
             			</div>
@@ -168,8 +169,10 @@
 {{name}}
 {{duration}} sec {{niceTime}}</b><br>
 
-<div style="width:350px;" class="embed-responsive embed-responsive-16by9">
-<video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div>
+<!-- <div style="width:350px;" class="embed-responsive embed-responsive-16by9"> -->
+<div id="playa"></div>
+<!-- </div> -->
+<!-- <video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div> -->
 </template>
 <template name="project">
 			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	
