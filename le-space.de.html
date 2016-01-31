@@ -136,7 +136,7 @@
 						{{#if isOwner }}
                       		{{> sharejsCM onRender=config docid=_id id="editor"}}
 						{{else}}
-							<pre>{{documentSnapshot}}</pre>
+							{{#markdown}}{{documentSnapshot}}{{/markdown}}
 						{{/if}}
 						<br>
                  	   <div class="panel panel-default">
@@ -169,10 +169,10 @@
 {{name}}
 {{duration}} sec {{niceTime}}</b><br>
 
-<!-- <div style="width:350px;" class="embed-responsive embed-responsive-16by9"> -->
-<div id="playa"></div>
-<!-- </div> -->
-<!-- <video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video></div> -->
+<div style="width:350px;" class="embed-responsive embed-responsive-16by9">
+<!-- <div id="playa"></div> -->
+<video controls="" class="embed-responsive-item" name="media"  src="{{url}}" type="video/mp4"></video>
+</div>
 </template>
 <template name="project">
 			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	

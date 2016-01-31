@@ -1,33 +1,28 @@
-Todos
------
+#Todos
+------
 
-- (P1) use markdown to display written text https://atmospherejs.com/meteor/markdown
+* Priority 1
+- update duration of archive when archive stopped.
 
-
-
+- (Maintenance) re-attach old recorded videos to current project.
 - (P1) Permissions for new user - let people write into writer only when they are logged in
 - (P1) own page for each recording (e.g. in order to share an archive link)
 
-
+- Mark every idea as (folder, todo (with cost) or cost)
 - (P2) video größer during conference / fullscreen
 - (P2) editor großer / fullscreen (including video)
 - (P2) screen sharing
 - (P1) allow read/write on editor (add member)
-- (P1)  allow start conference for (add member)
+- (P1) allow start conference for (add member)
 - (P1) give archive a name and make it editable
 - (P1) set private (default public) project not visible for non-members
 			(if private - generate private sharing link)
 - (P2) notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
-
 - (P1) Disable Video Button
 - (P1) make Android App (make it ring when somebody enters a room!)
-
-
 - check drag&drop (moving) of projects https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
-
 - (P1)  if session is already running - connect subscribe and display without publish own video
 - (P1)  User can be owner (have shares), member (have hours, rates) 
-
 - (P1)  add 'done in percent'
 - (P2)  share recording (email/twitter/facebook/g+)
 - (bug) two windows of the videopartner appear.	
@@ -50,6 +45,7 @@ Todos
 - add translations
 - redirect non-webrtc browser 
 - check https://atmospherejs.com/splendido/accounts-meld
+- check video transcoding https://lostechies.com/bradcarleton/2013/11/20/html5-video-transcoding-with-node-js-and-aws/
 - check data version management - https://github.com/thiloplanz/v7files/wiki/Vermongo
 - check https://github.com/Slava/meteor-rethinkdb
 - check information for blockchain
@@ -60,7 +56,7 @@ Todos
 	http://www.linuxfoundation.org/news-media/announcements/2015/12/linux-foundation-unites-industry-leaders-advance-blockchain (linux foundation for blockchain
 	)
 
-"Small-Things":
+#"Small-Things":
 - delete ShareJS document when project is deleted 
 - delete archives document from s3 when project is deleted 
 - delete all orphaned shareJS documents 
@@ -69,13 +65,15 @@ Todos
 - (ananda) avatar fallback icon (e.g. virtualc logo) https://github.com/meteor-utilities/avatar
 - (ananda) logos & texts for app authentication in facebook, google, github, twitter
 
-Stuffs:
+#Stuffs:
 mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 's/:/ -p /' | sed 's/@/ /'`
 
 
-Done
+#Done
 ----
-- 2016-01-31 - (P1) S3 Autopublish opentok
+- 2016-01-31 - remove flash video player and re-enable standard HTML5 Player.
+- 2016-01-31 - (P1) use markdown to display written text https://atmospherejs.com/meteor/markdown
+- 2016-01-31 - (P1) S3 Autopublish opentok by addig permissions within amazon s3 aws
 - 2016-01-30 - (P1) snapshot of meteor.call editortext and video.url into publish/subscription 
 				http://stackoverflow.com/questions/29923423/meteor-iron-router-waiton-without-subscribe
 				http://stackoverflow.com/questions/31238275/how-to-publish-multiple-collections-in-single-subscription-call-in-meteor
