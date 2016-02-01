@@ -2,35 +2,50 @@
 ------
 
 * Priority 1
-- update duration of archive when archive stopped.
+- people have to like a project so owner can give permissions.
+	- add heart to project make it clickable
+	- save userIds under likes under project
+	- display people who like the project below project in a table with permissions.
+	- implement permissions
+		- edit text in collaborative editor
+		- start conference
+		- delete & rename archive 
+		- change project name 
 
+
+- save participants in archive
+- allow read/write on editor (add member)
+- allow start conference for (add member)
+- permissions for new user - let people write into writer only when they are logged in
+- if session is already running - connect subscribe and display without publish own video
+- mark every idea as (folder, todo (with cost) or cost)
+- set private (default public) project not visible for non-members (if private - generate private sharing link)
+- make Android App (make it ring when somebody enters a room!)
+- every user can be an owner (have shares), member (have hours, rates) 
+- (bug) two windows of the videopartner appear sometimes
+- (bug) re-enabling the video should not appear below the page instead in the same div where its been before
+ 
+* Priority 2
+- redirect non-webrtc browser 
+- video größer during conference / fullscreen
+- editor großer / fullscreen (including video)
+- screen sharing
+- own page for each recording (e.g. in order to share an archive link)
 - (Maintenance) re-attach old recorded videos to current project.
-- (P1) Permissions for new user - let people write into writer only when they are logged in
-- (P1) own page for each recording (e.g. in order to share an archive link)
+- update duration of archive when archive stopped.
+- share recording (email/twitter/facebook/g+)
+- give archive a name and make it editable
+- add 'done in percent' for tasks
+- enable/disable audio/video during recording
 
-- Mark every idea as (folder, todo (with cost) or cost)
-- (P2) video größer during conference / fullscreen
-- (P2) editor großer / fullscreen (including video)
-- (P2) screen sharing
-- (P1) allow read/write on editor (add member)
-- (P1) allow start conference for (add member)
-- (P1) give archive a name and make it editable
-- (P1) set private (default public) project not visible for non-members
-			(if private - generate private sharing link)
-- (P2) notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
-- (P1) Disable Video Button
-- (P1) make Android App (make it ring when somebody enters a room!)
+* Priority 3
+- add translations
+- notifications https://github.com/ttsvetko/HTML5-Desktop-Notifications#usage
+- add rss https://github.com/raix/Meteor-rssfeed
 - check drag&drop (moving) of projects https://github.com/tomsabin/meteor-sortable-editable-drag-n-droppable-lists
-- (P1)  if session is already running - connect subscribe and display without publish own video
-- (P1)  User can be owner (have shares), member (have hours, rates) 
-- (P1)  add 'done in percent'
-- (P2)  share recording (email/twitter/facebook/g+)
-- (bug) two windows of the videopartner appear.	
-- (P2)  enable/disable audio/video during recording
-- (P2)  eventually make projects div an sub projects div a fixed size and scrollable if too long
+- eventually make projects div an sub projects div a fixed size and scrollable if too long
 - apply for project by team member (add planed hours, add planed costs, )
 - invite project member (by email)
-
 - add checkbox looking for crowd (let people make offer / budget / offer share / ask for donation / ask for sponsoring)
 - add checkbox looking for founding (crowdfunded/investment)
 - add priority 
@@ -40,11 +55,12 @@
 - add planed hours
 - add planed costs
 - add planed finance model (e.g. )
-- (p2) schedule webrtc call and video for a certain time (or now) for all members
-- referenced projects
-- add translations
-- redirect non-webrtc browser 
-- check https://atmospherejs.com/splendido/accounts-meld
+- schedule webrtc call and video for a certain time (or now) for all members
+- referenced projects (link other projects to own project)
+- upload videos to facebook https://developers.facebook.com/docs/graph-api/video-uploads
+
+#Technology
+- check howto meld accounts into one account https://atmospherejs.com/splendido/accounts-meld
 - check video transcoding https://lostechies.com/bradcarleton/2013/11/20/html5-video-transcoding-with-node-js-and-aws/
 - check data version management - https://github.com/thiloplanz/v7files/wiki/Vermongo
 - check https://github.com/Slava/meteor-rethinkdb
@@ -72,12 +88,12 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 #Done
 ----
 - 2016-01-31 - remove flash video player and re-enable standard HTML5 Player.
-- 2016-01-31 - (P1) use markdown to display written text https://atmospherejs.com/meteor/markdown
-- 2016-01-31 - (P1) S3 Autopublish opentok by addig permissions within amazon s3 aws
-- 2016-01-30 - (P1) snapshot of meteor.call editortext and video.url into publish/subscription 
+- 2016-01-31 - use markdown to display written text https://atmospherejs.com/meteor/markdown
+- 2016-01-31 - S3 Autopublish opentok by addig permissions within amazon s3 aws
+- 2016-01-30 - snapshot of meteor.call editortext and video.url into publish/subscription 
 				http://stackoverflow.com/questions/29923423/meteor-iron-router-waiton-without-subscribe
 				http://stackoverflow.com/questions/31238275/how-to-publish-multiple-collections-in-single-subscription-call-in-meteor
-- 2016-01-29 - (P1) SEO with Meteor 
+- 2016-01-29 - SEO with Meteor 
 				https://atmospherejs.com/lookback/seo
 				OpenGraph http://ogp.me/ (OpenGraph)
 				Meteor & Seo http://www.manuel-schoebel.com/blog/meteor-and-seo
@@ -85,32 +101,32 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 				HTML5 Fallback & Flash https://blog.kaltura.org/facebook-now-require-html5-and-fallback-in-open-graph/
 				JWPlayer & Facebook http://www.jwplayer.com/blog/publish-your-videos-to-facebook-with-a-jw-player/
 				Twitter Cards https://dev.twitter.com/cards/markup
-- (P1) Change title according to project name 
-- (P1) Add meta data to post (use text from editor)
-- 2016-01-28 - (P1-Enhancement) in one project jump one level up (folder up)
+- Change title according to project name 
+- Add meta data to post (use text from editor)
+- 2016-01-28 - (Enhancement) in one project jump one level up (folder up)
 - 2016-01-28 - (Evaluation) Spacebars https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md
 - 2016-01-28 - (P1-Bug) if project has children don't allow to delete
-- 2016-01-28 - (P1-Enhancement) after project/task delete jump one level up
-- 2016-01-28 - (P1-Enhancement) change label of project insert box to task/structure input
-- 2016-01-28 - (P1-Enhancement) after new project in root jump into project (not inside a project)
+- 2016-01-28 - (Enhancement) after project/task delete jump one level up
+- 2016-01-28 - (Enhancement) change label of project insert box to task/structure input
+- 2016-01-28 - (Enhancement) after new project in root jump into project (not inside a project)
 - 2016-01-28 - (Bug) Archive duration is 0 must be set from opentok api
 - 2016-01-27 - (Bug) Archiv does not display anymore after S3 link-In.	
 					https://tokbox.com/developer/guides/archiving/using-s3.html
 - 2016-01-27 (Bug) Archive cannot get deleted after isOwner implementation
-- 2016-01-27 (P1) add amazon S3 - for not deleting archives.
-- 2016-01-20 (P1) make it more beautiful (!)
+- 2016-01-27 add amazon S3 - for not deleting archives.
+- 2016-01-20 make it more beautiful (!)
 				- http://designmodo.com/linecons-free/
 				- https://atmospherejs.com/jelena
-- 2016-01-23 (P1)  
+- 2016-01-23  
 				- closed account
 				- insert only allowed in root or where i am owner (done)
 - 2016-01-22 	- make it more beautiful 
 			 	- permissions
-- 2016-01-16 - (P1) ring other project member when user count becomes more then 1 http://buzz.jaysalvat.com/documentation/sound/
+- 2016-01-16 - ring other project member when user count becomes more then 1 http://buzz.jaysalvat.com/documentation/sound/
 - 2016-01-16 - (Bug) Don't show first project if no project selected
-- 2016-01-16 - (P1) use CodeMirror http://codemirror.net/
+- 2016-01-16 - use CodeMirror http://codemirror.net/
 - 2016-01-16 - (Bug) if not connected with registered user - access denied error during user registration
-- 2016-01-15 - (P1) display online project members 
+- 2016-01-15 - display online project members 
 - 2016-01-14 - (bug) add profile to normal user from email
 - 2016-01-14 - (bug) collaboration text doesn't work sometimes - shows loading - problem with user/owner? 
 - 2016-01-14 - (bug) login with https (over facebook, google, twitter, github etc.)	
