@@ -3,16 +3,16 @@
 
 * Priority 1
 - people have to like a project so owner can give permissions.
-	- add heart to project make it clickable
-	- save userIds under likes under project
+	- add heart to project make it clickable 
+	- save userIds under likes under project 
 	- display people who like the project below project in a table with permissions.
-	- implement permissions
+	- implement permissions by clicking on user display permission window.
 		- edit text in collaborative editor
 		- start conference
 		- delete & rename archive 
 		- change project name 
 
-
+- delete archives from s3 by directly accessing it (project delete from server)
 - save participants in archive
 - allow read/write on editor (add member)
 - allow start conference for (add member)
@@ -26,6 +26,7 @@
 - (bug) re-enabling the video should not appear below the page instead in the same div where its been before
  
 * Priority 2
+- upload a project imagine or logo
 - redirect non-webrtc browser 
 - video größer during conference / fullscreen
 - editor großer / fullscreen (including video)
@@ -86,7 +87,8 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 
 #Done
-----
+-----
+- 2016-02-01 - while deleting project also remove document from shareJS.
 - 2016-01-31 - remove flash video player and re-enable standard HTML5 Player.
 - 2016-01-31 - use markdown to display written text https://atmospherejs.com/meteor/markdown
 - 2016-01-31 - S3 Autopublish opentok by addig permissions within amazon s3 aws

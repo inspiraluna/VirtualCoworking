@@ -2,9 +2,6 @@ var defaults = {
   title: 'Le Space',                 // Will apply to <title>, Twitter and OpenGraph.
   suffix: 'Virtual Coworking',
   separator: '|',
-  // fb: { 
-  //       app_id : '1022486891149330'
-  //     },
   description: 'Transparent project communications',        // Will apply to meta, Twitter and OpenGraph.
   image: 'http://www.le-space.de/les_button_klein.png',   // Will apply to Twitter and OpenGraph.
 

@@ -81,7 +81,7 @@ var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
     var callDeleteArchiveAsyncWrap = Meteor.wrapAsync(callDeleteArchiveAsync);
 
     var getSnapshotSync = Meteor.wrapAsync(ShareJS.model.getSnapshot);
-    
+    var deleteDoc = Meteor.wrapAsync(ShareJS.model.delete);
 
     Meteor.startup(function () {
       console.log('starting up...');
@@ -95,6 +95,18 @@ var apiSecret = 'fd2911e46c0a1c02d7f0664222169195c7eb146f';
               catch(err) {
                       return '';
               }
+        },
+        deleteProject : function(_id){
+          console.log('removing doc:'+_id);
+              Projects.remove(_id, function(error){
+                  if(!error) {
+                    deleteDoc(_id);
+                    console.log('Deleted document id');
+                    return _id;
+                  }
+                  else return error
+              });
+           
         },
         startArchive: function(_id, sessionId){
           return callStartArchiveAsyncWrap(_id, sessionId);       

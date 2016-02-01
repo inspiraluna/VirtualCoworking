@@ -93,6 +93,25 @@
 				 <div class="panel panel-default">
                    <div class="panel-heading">
                    <i class="directoryUp fa fa-folder-open fa-3x"></i>
+
+
+                   	{{#if hasLiked}}
+                   		<i class="like fa fa-heart fa-3x" style="color: red"></i>
+					{{else}}
+						<i class="like fa fa-heart-o fa-3x" style="color: red"></i>
+					{{/if}}
+
+                   		{{#if sessionId}}
+									<i id="stop-video" class="fa fa-video-camera fa-3x" style="color: red"></i>
+									{{#if archiveStarted}}
+									<i id="stop-archive" class="fa fa-file-video-o fa-3x" ></i>
+									{{else}}
+									<i class="fa fa-file-video-o fa-3x" id="start-archive" style="color: red"></i>
+									{{/if}}
+						{{else}}
+									<i id="new-video" class="fa fa-video-camera fa-3x" style="color: green"></i>
+						{{/if}}
+
                    			{{#if projectCanBeDeleted}}<i class="delete fa fa-trash-o fa-3x pull-right"></i>{{/if}}
 						<table style="border-collapse: separate; border-spacing: 15px;">
 								<tr>
@@ -114,20 +133,6 @@
 						</table>
 					</div>
                     <div class="panel-body">
-                        <div class="btn-group pull-right btn-toggle"> 
-							<form>
-								{{#if sessionId}}
-									<i id="stop-video" class="fa fa-video-camera fa-3x"></i>
-									{{#if archiveStarted}}
-									<i id="stop-archive" class="fa fa-file-video-o fa-3x" ></i>
-									{{else}}
-									<i class="fa fa-file-video-o fa-3x" id="start-archive" style="color: red"></i>
-									{{/if}}
-								{{else}}
-									<i id="new-video" class="fa fa-video-camera fa-3x" style="color: red"></i>
-								{{/if}}
-							</form>
-                      	</div>
                       	<br>
 						<div id="layoutContainer">
 							<div id="publisherContainer"></div>
@@ -145,6 +150,16 @@
 		                      <div class="list-group">
 		                        {{#each childs}}
 									{{> project}}
+								{{/each}}
+		                      </div>
+		                    </div><!--/panel-body-->
+		        		</div><!--/panel-->
+						<div class="panel panel-default">
+		                  <div class="panel-heading"><h4>Interested people</h4></div>
+		                    <div class="panel-body">
+		                      <div class="list-group">
+		                        {{#each likes}}
+										{{> avatar userId=this size="small" shape="rounded"}}
 								{{/each}}
 		                      </div>
 		                    </div><!--/panel-body-->
@@ -177,3 +192,6 @@
 <template name="project">
 			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	
 </template>
+<!-- <template name="like">
+			<a href="/{{slug}}" class="list-group-item {{projectIsActive _id ../_id}}">{{projectname}}</a>	
+</template> -->

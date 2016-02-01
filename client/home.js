@@ -13,6 +13,9 @@ Template.home.helpers({
         cm.setOption("smartIndent", true);
         cm.setOption("indentWithTabs", true);
     }},
+    hasLiked : function(){
+        return _.contains(this.likes, Meteor.userId());
+    },
     isOwner : function(){
      return (Meteor.userId() === this.createdBy) || (Meteor.userId() && this.createdBy ==null);
     },
@@ -80,12 +83,30 @@ Template.home.helpers({
         if(parent) Router.go('/'+parent.slug);
         else Router.go('/');
     },
+    "click .like": function () {
+        console.log('clicked on like');
+        var likes = Session.get('project').likes;
+        
+        if(!likes) likes = [];
+        
+        if(_.contains(likes, Meteor.userId()))
+          likes = _.without(likes, _.findWhere(likes, Meteor.userId()));
+        else
+          likes.push(Meteor.userId());
+        console.log('likes:'+likes);
+        Projects.update(Session.get('project')._id,{$set:{likes: likes}});
+    }, 
     "click .delete": function () {
+      console.log('delete _id:'+this._id);
         var parent = Projects.findOne(this.parent);
-        Projects.remove(this._id, function(error){
-                if(parent) Router.go('/'+parent.slug);
-                else Router.go('/');
-        });
+
+         Meteor.call("deleteProject", this._id, function (error, result) {
+            console.log('got error from server'+error);
+            if(!error){
+              if(parent) Router.go('/'+parent.slug);
+              else Router.go('/');
+            }
+         });
     },     
      "click #new-video": function (event) {
      event.preventDefault();  
@@ -111,8 +132,7 @@ Template.home.helpers({
           }).connect(token, function (err) {
               if (!err) {
                   Projects.update(Session.get('project')._id,{$set:{sessionId: sessionId}});
-                  session.publish("publisherContainer");
-                 // layout();
+                  session.publish("publisherContainer");;
               }
           });
       });
