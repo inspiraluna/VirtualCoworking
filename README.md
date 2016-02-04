@@ -8,12 +8,11 @@
 - mark every idea as (folder, todo (with cost) or cost)
 - if session is already running - connect subscribe and display without publish own video
 - set private (default public) project not visible for non-members (if private - generate private sharing link)
-
-- every user can be an owner (have shares), member (have hours, rates) 
 - (bug) two windows of the videopartner appear sometimes
 - (bug) re-enabling the video should not appear below the page instead in the same div where its been before
  
 * Priority 2
+- every user can be an owner (have shares), member (have hours, rates) 
 - save participants in archive
 - delete archives from s3 by directly accessing it (project delete from server)
 - implement permissions by clicking on user display permission window.
