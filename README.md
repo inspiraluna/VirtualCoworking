@@ -2,30 +2,26 @@
 ------
 
 * Priority 1
-- people have to like a project so owner can give permissions.
-	- add heart to project make it clickable 
-	- save userIds under likes under project 
-	- display people who like the project below project in a table with permissions.
-	- implement permissions by clicking on user display permission window.
-		- edit text in collaborative editor
-		- start conference
-		- delete & rename archive 
-		- change project name 
 
-- delete archives from s3 by directly accessing it (project delete from server)
-- save participants in archive
-- allow read/write on editor (add member)
-- allow start conference for (add member)
-- permissions for new user - let people write into writer only when they are logged in
-- if session is already running - connect subscribe and display without publish own video
-- mark every idea as (folder, todo (with cost) or cost)
-- set private (default public) project not visible for non-members (if private - generate private sharing link)
+- ask people to log in first
 - make Android App (make it ring when somebody enters a room!)
+- mark every idea as (folder, todo (with cost) or cost)
+- if session is already running - connect subscribe and display without publish own video
+- set private (default public) project not visible for non-members (if private - generate private sharing link)
+
 - every user can be an owner (have shares), member (have hours, rates) 
 - (bug) two windows of the videopartner appear sometimes
 - (bug) re-enabling the video should not appear below the page instead in the same div where its been before
  
 * Priority 2
+- save participants in archive
+- delete archives from s3 by directly accessing it (project delete from server)
+- implement permissions by clicking on user display permission window.
+	- edit text in collaborative editor
+	- start conference
+	- delete & rename archive 
+	- change project name
+
 - accounts guests https://github.com/artwells/meteor-accounts-guest
 - check prerender for seo https://prerender.io/ 
 - upload a project imagine or logo
@@ -90,6 +86,12 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 #Done
 -----
+- 2016-02-04 - people who know the slug can see the project
+- 2016-02-04 - only signed in people can see their own projects or liked projects
+- 2016-02-02 - people have to like a project so owner can give permissions.
+			 - add heart to project make it clickable 
+			 - save userIds under likes under project 
+			 - display people who like the project below project in a table
 - 2016-02-01 - while deleting project also remove document from shareJS.
 - 2016-01-31 - remove flash video player and re-enable standard HTML5 Player.
 - 2016-01-31 - use markdown to display written text https://atmospherejs.com/meteor/markdown

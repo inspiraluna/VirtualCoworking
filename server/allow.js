@@ -33,7 +33,8 @@
       // else return false;
     },
     update: function(userId, docs, fields, modifier){
-      return isOwner(userId,docs.createdBy) || isAdmin(userId);
+      //return _contains(fields,'likes');
+      return _.contains(fields,'likes') || Owner(userId,docs.createdBy) || isAdmin(userId);
     },
     remove: function (userId, docs){
       return isOwner(userId,docs.createdBy) || isAdmin(userId);

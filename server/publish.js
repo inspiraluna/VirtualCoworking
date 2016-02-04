@@ -26,7 +26,10 @@
       else self.ready();
   });
 
-  Meteor.publish('projects', function(_id){
+  Meteor.publish('projects', function(slug){
+
+    if(slug) return Projects.find({slug: slug});
+
     if(this.userId)
       return Projects.find({$or: [ { createdBy: this.userId}, {likes: this.userId}]});
     else
