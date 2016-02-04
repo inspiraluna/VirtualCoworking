@@ -158,9 +158,12 @@
 		                  <div class="panel-heading"><h4>Interested people</h4></div>
 		                    <div class="panel-body">
 		                      <div class="list-group">
-		                        {{#each likes}}
-										{{> avatar userId=this size="small" shape="rounded"}}
-								{{/each}}
+		                        {{#transition in="zoomIn" out="bounceOut"}}
+			                        {{#each likes}}
+			                    
+											{{> avatar userId=this size="small" shape="rounded"}}
+									{{/each}}
+								{{/transition}}
 		                      </div>
 		                    </div><!--/panel-body-->
 		        		</div><!--/panel-->

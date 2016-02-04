@@ -32,8 +32,7 @@
 
     if(this.userId)
       return Projects.find({$or: [ { createdBy: this.userId}, {likes: this.userId}]});
-    else
-      return null;
+    else this.ready();
   }); 
     
   Meteor.publish('projectUsers', function(projectId) {

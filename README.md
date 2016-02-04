@@ -85,6 +85,7 @@ mongo `meteor mongo --url virtualc.meteor.com | sed 's/mongodb:\/\//-u /' | sed 
 
 #Done
 -----
+- 2016-02-04 - added animations for likes with https://github.com/webtempest/meteor-animate
 - 2016-02-04 - people who know the slug can see the project
 - 2016-02-04 - only signed in people can see their own projects or liked projects
 - 2016-02-02 - people have to like a project so owner can give permissions.
