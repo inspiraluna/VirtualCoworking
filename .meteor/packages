@@ -31,7 +31,6 @@ accounts-facebook
 accounts-twitter
 accounts-google
 accounts-github
-force-ssl
 utilities:avatar
 brentjanderson:buzz
 mizzao:sharejs-codemirror
@@ -40,3 +39,4 @@ smowden:jquery-cookiebar
 spiderable
 lookback:seo
 perak:markdown
+browser-policy

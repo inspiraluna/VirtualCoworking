@@ -18,6 +18,10 @@ blaze-html-templates@1.0.1
 blaze-tools@1.0.4
 boilerplate-generator@1.0.4
 brentjanderson:buzz@1.1.10
+browser-policy@1.0.5
+browser-policy-common@1.0.4
+browser-policy-content@1.0.6
+browser-policy-framing@1.0.6
 caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
@@ -41,7 +45,6 @@ email@1.0.8
 es5-shim@4.1.14
 facebook@1.2.2
 fastclick@1.0.7
-force-ssl@1.0.6
 fortawesome:fontawesome@4.5.0
 geojson-utils@1.0.4
 github@1.1.4

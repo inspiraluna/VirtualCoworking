@@ -26,6 +26,8 @@
 - (bug) re-enabling the video should not appear below the page instead in the same div where its been before
  
 * Priority 2
+- accounts guests https://github.com/artwells/meteor-accounts-guest
+- check prerender for seo https://prerender.io/ 
 - upload a project imagine or logo
 - redirect non-webrtc browser 
 - video größer during conference / fullscreen

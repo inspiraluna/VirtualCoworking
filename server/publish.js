@@ -27,7 +27,7 @@
   });
 
   Meteor.publish('projects', function(_id){
-     return Projects.find();
+     return Projects.find({$or: [ { createdBy: this.userId},{owner: this.userId}, {likes: this.userId}]});
   }); 
     
   Meteor.publish('projectUsers', function(projectId) {
